@@ -1,139 +1,65 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Col, Row, Container, Image, Button, Toast } from "react-bootstrap"
-import './App.css';
-import MyNavbar from './MyNavbar'
-import MySidebar from './MySidebar'
-import MainContent from './MainContent'
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { LoginForm } from './LoginComponent'
-import { MyForm, MyPreviewForm } from './MyForm'
-import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
-import * as Icons from 'react-bootstrap-icons';
-import * as API from './API';
+import './App.css';
+import './LoginComponent'
 import { Helmet } from 'react-helmet';
-import './meme.css';
+import { Navigate } from 'react-router';
+import { useState, useEffect } from 'react';
 import './rainbowText.css'
-import Objects from './images'
-import { Redirect } from 'react-router';
-
-
-
+import { MyModal } from './MyModal.js'
+import { MyNavbar } from './MyNavbar.js'
+import { GameGrid } from './GameGrid.js'
+import * as API from './API';
 
 function App() {
 
-  const [formState, setFormState] = useState('create');
-
-  const [activeFilter, setActiveFilter] = useState("All");
-  const [publicMemes, setPublicMemes] = useState([]);
-  const [templates, setTemplates] = useState(Objects().map((ob) => { return ob }));
-
   const [user, setUser] = useState('');
-
-  const [loading, setLoading] = useState(true);
-
-  const [show, setShow] = useState(false);
-  const handleShow = (bool) => setShow(bool);
-
+  const [message, setMessage] = useState('');
   const [showLoginForm, setShowLoginForm] = useState(false);
   const handleShowLoginForm = (bool) => setShowLoginForm(bool);
 
-  const [showPreviewForm, setShowPreviewForm] = useState(false);
-  const [selectedPreview, setSelectedPreview] = useState({});
-
-  const [message, setMessage] = useState('');
-
-  const handleSelectedPreview = (preview) => {
-    setSelectedPreview(preview);
-    setFormState('preview');
-    setShowPreviewForm(true);
+  //State of the Modal that allow to set the difficult
+  const [showSettingsModal, setShowSettingsModal] = useState(true);
+  const handleShowSettingsModal = (bool) => {
+    setShowSettingsModal(bool);
   }
 
-  const handleFormState = (state) => {
-    setFormState(state);
+  //Game difficult level
+  const [gameDifficult, setGameDifficult] = useState(1);
+  const handleGameDifficult = (difficult) => {
+    setGameDifficult(difficult);
+  }
+
+  //Puzzle is the group of letters that appear 
+  const [puzzle, setPuzzle] = useState([]);
+
+  const [loading, setLoading] = useState(true);
+
+  const [start, setStart] = useState(false);
+  const handleStart = (bool) => {
+    setStart(bool);
   }
 
   useEffect(() => {
-    API.getMemes(activeFilter, setPublicMemes, setLoading);
-  }, [activeFilter]);
+    API.getPuzzle(start, setPuzzle, setLoading);
+  },[start])
 
-  const addMeme = (meme) => {
-    setPublicMemes(oldMemes => [...oldMemes, meme]);
-    API.addMeme(meme)
-  }
 
-  const setFilter = (filter) => {
-    setActiveFilter(filter);
-  }
 
-  const doLogIn = async (credentials) => {
-    try {
-      const user = await API.logIn(credentials);
-      { setMessage({ msg: `Welcome, ${user}!`, type: 'success' }); }
-    } catch (err) {
-      { setMessage({ msg: err, type: 'danger' }); }
-    }
-  }
+
 
   return (
     <Router>
-      <Switch>
-
-        {/* -------- Main ---------- */}
-        <Route path='/main' render={() =>
+      <Routes>
+        {/* ******* Initial Page ******* */}
+        <Route path="/" element={
           <>
-            <MyNavbar user={user} setUser={setUser} handleShowLoginForm={handleShowLoginForm} />
-            <Row>
-              <Col xs={3} className="d-none d-sm-block">
-                <MySidebar activeFilter={activeFilter} setFilter={setFilter} user={user} />
-              </Col>
-              <Col>
-                <MainContent
-                  activeFilter={activeFilter}
-                  memes={publicMemes}
-                  handleSelectedPreview={handleSelectedPreview}
-                  loading={loading}
-                  handleShow={handleShow}
-                  handleFormState={handleFormState}
-                />
-
-                <MyForm
-                  addMeme={addMeme}
-                  templates={templates}
-                  handleShow={handleShow}
-                  show={show}
-                  formState={formState}
-                  showPreviewForm={showPreviewForm}
-                  selectedPreview={selectedPreview}
-                  user={user}
-                />
-                <Toast show={message !== ''} onClose={() => setMessage('')} delay={3000} autohide>
-                  <Toast.Body>{message?.msg}</Toast.Body>
-                </Toast>
-                {showLoginForm ? <LoginForm login={doLogIn} setUser={setUser} handleShow={handleShowLoginForm} show={showLoginForm}/> : ''}
-                <hr />
-              </Col>
-            </Row>
-            <Row className="d-flex justify-content-end px-4" >
-              <Button variant="primary" style={{ width: "125px", height: "40px" }} onClick={
-                () => {
-                  handleShow(!show);
-                  handleFormState('create');
-                }}>
-                <h7 className="rainbow-text2">New Meme</h7>
-              </Button>
-            </Row>
-          </>}
-        />
-
-        {/* -------- Root ---------- */}
-        <Route path='/' render={() => <>
-          <Helmet>
-            <style>{'body { background-color: #003366; }'}</style>
-          </Helmet>
-          {user != null ? <Redirect to="/main" /> :
-            <>
-              <div className="mt-5">
-                <h1 className="rainbow-text"
+            <style>{'body { background-color: #E8EF02; }'}</style>
+            <Container style={{ marginTop: 100 }}>
+              <Row className="justify-content-md-center">
+                <h3 className="rainbow-text"
                   style={{
                     display: "flex",
                     justifyContent: "center",
@@ -141,40 +67,54 @@ function App() {
                     fontSize: "70px",
                     fontFamily: 'Luckiest Guy',
                   }}
-                > Meme Generator</h1>
-                {showLoginForm ? <LoginForm login={doLogIn} show={showLoginForm} handleShow={handleShowLoginForm} setUser={setUser}/> : ''}
-                <Row>
-                  <Col className="d-flex justify-content-end">
-                    <Button
-                      style={{
-                        width: "130px",
-                        height: "50px",
-                      }}
-                      onClick={() => handleShowLoginForm(true)}
-                    >LogIn</Button>
-                  </Col>
-                  <Col>
-                    <Link to="/main">
-                      <Button style={{ width: "150px", height: "50px" }}>Enter as guest</Button>
-                    </Link>
-                  </Col>
-                </Row>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginTop: 100,
-                  }}>
-                  <Row>
-                    <Image src='https://media.giphy.com/media/VGuAZNdkPUpEY/giphy.gif' />
-                  </Row>
-                </div>
-              </div>
-            </>}
-        </>}>
+                > *CruciPuzzle*</h3>
+              </Row>
+              <Row>
+                <Col className="d-flex justify-content-end">
+                  <Button
+                    style={{
+                      width: "130px",
+                      height: "50px",
+                    }}
+                  >LogIn</Button>
+                </Col>
+                <Col>
+                  <Link to="/main">
+                    <Button style={{ width: "150px", height: "50px" }}>Enter as guest</Button>
+                  </Link>
+                </Col>
+              </Row>
+            </Container>
+          </>
+        }>
         </Route>
-      </Switch>
+        {/* ******* Game Page ******* */}
+        <Route path="/main" element={
+          <>
+            <MyNavbar />
+            <Container>
+              <Row>
+                <Col xs={10} md={{ span: 6, offset: 3 }} xl={{ span: 6, offset: 3 }}>
+                  <GameGrid
+                    gameDifficult={gameDifficult}
+                    loading={loading}
+                  />
+                </Col>
+              </Row>
+            </Container>
+            {/* ******* Difficult Settings Modal ******* */}
+            <MyModal
+              showSettingsModal={showSettingsModal}
+              handleShowSettingsModal={handleShowSettingsModal}
+              gameDifficult={gameDifficult}
+              handleGameDifficult={handleGameDifficult}
+              puzzle={puzzle}
+              handleStart={handleStart}
+            />
+          </>
+        }>
+        </Route>
+      </Routes>
     </Router>
   );
 }

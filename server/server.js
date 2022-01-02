@@ -77,13 +77,13 @@ passport.use(new LocalStrategy(
 
 
 
-// GET /api/memes
-app.get('/api/memes', async (req, res) => {
+// GET /api/puzzle
+app.get('/api/puzzle', async (req, res) => {
     dao.getAll()
-        .then((memes) => {
-            switch (req.query.filter) {
-                case ("All"):
-                    res.json(memes);
+        .then((puzzle) => {
+            switch (req.query.difficult) {
+                case ("1"):
+                    res.json(puzzle);
                     break;
                 case ("Today"):
                     res.json(memes.filter((meme) => dayjs(meme.date).isSame(dayjs().format("MM/DD/YYYY"))));
@@ -185,4 +185,7 @@ app.get('/api/sessions/current', (req, res) => {
     res.status(401).json({error: 'Unauthenticated user!'});;
 });
 
-app.listen(3001, () => { console.log('running') })
+
+app.listen(port, () => {
+  console.log(`react-server listening at http://localhost:${port}`);
+});
