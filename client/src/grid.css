@@ -9,38 +9,108 @@
 }
 
 
-.external-frame {
+.external-frame1 {
 	background-repeat: no-repeat;
     background-size: contain;
 	border-style: solid;
-	border-width: thin;
+	border-width: 2px;
 	border-color: #dfe2e6;
-	border-radius: 2%;
-    width: 300px;
-    height: 300px;
+    width: 263px;
+    height: 129px;
 }
+
+.external-frame2 {
+	background-repeat: no-repeat;
+    background-size: contain;
+	border-style: solid;
+	border-width: 2px;
+	border-color: #dfe2e6;
+    width: 545px;
+    height: 265px;
+}
+
+.external-frame3 {
+	background-repeat: no-repeat;
+    background-size: contain;
+	border-style: solid;
+	border-width: 2px;
+	border-color: #dfe2e6;
+    width: 827px;
+    height: 401px;
+}
+
+.external-frame4 {
+	background-repeat: no-repeat;
+    background-size: contain;
+	border-style: solid;
+	border-width: 2px;
+	border-color: #dfe2e6;
+    width: 1109px;
+    height: 536px;
+}
+
+.external-frame5 {
+	background-repeat: no-repeat;
+    background-size: contain;
+	border-style: solid;
+	border-width: 2px;
+	border-color: #dfe2e6;
+    width: 1391px;
+    height: 672px;
+}
+
 
 .frame {
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 	background-repeat: no-repeat;
     background-size: contain;
 	border-style: solid;
 	border-width: thin;
 	border-color: #dfe2e6;
-	border-radius: 2%;
-    width: 50px;
-    height: 50px;
-}
-
-/* {image6} */
-.text_image {
-	display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: space-around;
-
-}
-.text_image > div {
-    width: 100%;
+	border-radius: 10%;
+    width: 25px;
+    height: 25px;
+    margin-top: -1px;
+    margin-left: 11px;
+    margin-right: 10px;
+    margin-bottom: 10px;
     text-align: center;
 }
 
+.frame-selected {
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: orange;
+	background-repeat: no-repeat;
+    background-size: contain;
+	border-style: solid;
+	border-width: thin;
+	border-color: #dfe2e6;
+	border-radius: 10%;
+    width: 25px;
+    height: 25px;
+    margin-top: -1px;
+    margin-left: 11px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+
+
+/* {image6} */
+.text_image {
+	display: grid;
+    border-radius: 2%;
+    color: rgba(252, 0, 0, 0);
+    
+  flex-direction: column;
+  vertical-align: middle;
+  justify-content: space-around;
+}

@@ -42,12 +42,11 @@ function App() {
     setStart(bool);
   }
 
+  
+
   useEffect(() => {
-    API.getPuzzle(start, setPuzzle, setLoading);
-  },[start])
-
-
-
+    API.getPuzzle(gameDifficult, setPuzzle, setLoading);
+  }, [start])
 
 
   return (
@@ -92,16 +91,25 @@ function App() {
         <Route path="/main" element={
           <>
             <MyNavbar />
-            <Container>
-              <Row>
-                <Col xs={10} md={{ span: 6, offset: 3 }} xl={{ span: 6, offset: 3 }}>
-                  <GameGrid
-                    gameDifficult={gameDifficult}
-                    loading={loading}
-                  />
-                </Col>
-              </Row>
-            </Container>
+            <Row>
+              <h3>Punteggio</h3>
+            </Row>
+            <Row>
+              <Container>
+                <Row>
+                  <Col/>
+                  <Col>
+                    <GameGrid
+                      gameDifficult={gameDifficult}
+                      loading={loading}
+                      puzzle={puzzle}
+                      className='ml-3'
+                    />
+                  </Col>
+                  <Col/>
+                </Row>
+              </Container>
+            </Row>
             {/* ******* Difficult Settings Modal ******* */}
             <MyModal
               showSettingsModal={showSettingsModal}

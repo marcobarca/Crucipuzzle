@@ -1,6 +1,6 @@
 
 exports.getPuzzle = async (gameDifficult, setPuzzle, setLoading) => {
-    const response = await fetch('/api/puzzle?filter=' + gameDifficult);
+    const response = await fetch('/api/puzzle?gameDifficult=' + gameDifficult);
     const responseBody = await response.json();
     if (response.ok) {
         setPuzzle(responseBody);
