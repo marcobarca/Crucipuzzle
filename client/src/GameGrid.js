@@ -16,6 +16,10 @@ function GameGrid(props) {
         setFirstLetter(bool);
     }
 
+    const prova = (elem) => {
+        elem.key = -100
+    }
+
     return (
         props.loading ? <h2 className='text-center'>Loading</h2> :
             <>
@@ -25,14 +29,12 @@ function GameGrid(props) {
                             <Row key={index}>
                                 {innerMatrix.map((element, innerIndex) => {
                                     return (
-                                        <div
+                                        <Container
                                             className={"frame text_image" + `${props.gameDifficult}`}
                                             key={innerIndex + index * (props.gameDifficult * 6)}
-                                        >
-                                            <div style={{ color: `black` }} key={innerIndex + index * (props.gameDifficult * 6)}>
-                                                {element}
-                                            </div>
-                                        </div>
+                                            onClick={prova}>
+                                            {element}
+                                        </Container>
                                     )
                                 })}
 

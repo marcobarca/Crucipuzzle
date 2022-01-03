@@ -103,14 +103,3 @@
 }
 
 
-
-/* {image6} */
-.text_image {
-	display: grid;
-    border-radius: 2%;
-    color: rgba(252, 0, 0, 0);
-    
-  flex-direction: column;
-  vertical-align: middle;
-  justify-content: space-around;
-}
