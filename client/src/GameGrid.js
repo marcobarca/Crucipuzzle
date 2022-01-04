@@ -118,7 +118,7 @@ function GameGrid(props) {
 
                                                     //lastLetter > firstLetter (switch case)
 
-                                                    switch (LastPosition > firstPosition) {
+                                                    switch (lastPosition > firstPosition) {
 
                                                         //lastLetter > firstLetter (Progressive case)
                                                         case (true):
@@ -130,17 +130,26 @@ function GameGrid(props) {
                                                                 //Adding the firt letter the word
                                                                 let word = matrix[rowIndexFirst][colIndexFirst]
 
-                                                                for(let i=rowIndexFirst + gridFactor; i < rowIndexFirst + (numberOfLetters * gridFactor); i+gridFactor)
+                                                                for(let i=rowIndexFirst + 1; i < rowIndexLast + 1; i++){
+                                                                    console.log(i)
                                                                     word += `${matrix[i][colIndexFirst]}`
-
+                                                                }
                                                                 alert(word)
 
                                                                 //check the word on the vocabulary
                                                                 //if valid go on else exit now
 
                                                                 //light on all the letters
-                                                                for (let i = firstPosition; i < firstPosition + numberOfLetters; i+6)
+                                                                console.log('hello')
+                                                                console.log(lastPosition)
+                                                                console.log('hello')
+                                                                
+                                                                for (let i = firstPosition; i <= lastPosition; i = i+gridFactor){
+                                                                    console.log(i)
                                                                     handleBrightCells(i)
+                                                                }
+
+                                                                console.log('yooo')
 
                                                                 handleNewWord(true);
 
@@ -164,7 +173,7 @@ function GameGrid(props) {
                                                                 //if valid go on else exit now
 
                                                                 //light on all the letters
-                                                                for (let i = firstPosition; i < firstPosition + numberOfLetters; i++)
+                                                                for (let i = firstPosition; i < lastPosition; i++)
                                                                     handleBrightCells(i)
 
                                                                 handleNewWord(true);
