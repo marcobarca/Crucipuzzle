@@ -157,6 +157,46 @@ function GameGrid(props) {
                                                                 handleLastLetter(-1);
                                                             }
 
+                                                            //Oblique progressive
+                                                            else if (colIndexLast > colIndexFirst && rowIndexLast > rowIndexFirst) {
+                                                                let numberOfLetters = (rowIndexLast - rowIndexFirst) + 1
+                                                                
+                                                                //Adding the firt letter the word
+                                                                let word = matrix[rowIndexFirst][colIndexFirst]
+
+                                                                let colIndex = colIndexFirst + 1;
+
+                                                                for(let i=rowIndexFirst + 1; i < rowIndexLast + 1; i++){
+                                                                    console.log(i)
+                                                                    word += `${matrix[i][colIndex]}`
+                                                                    colIndex++;
+                                                                }
+                                                                alert(word)
+
+                                                                //check the word on the vocabulary
+                                                                //if valid go on else exit now
+
+                                                                //light on all the letters
+                                                                console.log('hello')
+                                                                console.log(lastPosition)
+                                                                console.log('hello')
+                                                                
+                                                                let index = 0;
+
+                                                                for (let i = firstPosition; i <= lastPosition; i = i+gridFactor){
+                                                                    console.log(i)
+                                                                    handleBrightCells(i + index)
+                                                                    index++;
+                                                                }
+
+                                                                console.log('yooo')
+
+                                                                handleNewWord(true);
+
+                                                                handleFirstLetter(-1);
+                                                                handleLastLetter(-1);
+                                                            }
+
                                                             //Inline progressive
                                                             else if (rowIndexFirst == rowIndexLast) {
 
