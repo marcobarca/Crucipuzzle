@@ -93,10 +93,8 @@ function GameGrid(props) {
 
                                                 //Select the LastLetter
                                                 else if (firstLetter != -1 && firstLetter != (innerIndex + index * (props.gameDifficult * 6)) && lastLetter == -1) {
+                                                    
                                                     handleLastLetter(innerIndex + index * (props.gameDifficult * 6))
-                                                    let tmp = words;
-                                                    tmp.push([firstLetter, innerIndex + index * (props.gameDifficult * 6)])
-                                                    handleWords(tmp)
                                                     /*
                                                     console.log('ciao')
                                                     console.log((~~((innerIndex + index * (props.gameDifficult * 6)) / 6)))
@@ -120,11 +118,192 @@ function GameGrid(props) {
 
                                                     switch (lastPosition > firstPosition) {
 
-                                                        //lastLetter > firstLetter (Progressive case)
+                                                        //lastLetter > firstLetter (Positive case)
                                                         case (true):
 
-                                                            //Vertical progressive
-                                                            if (colIndexFirst == colIndexLast) {
+                                                            // ------------------------------- //
+                                                            // ------Orizontal positive------- //
+                                                            // ------------------------------- //
+                                                            if (rowIndexFirst == rowIndexLast) {
+
+                                                                let numberOfLetters = (firstPosition - lastPosition) + 1
+
+                                                                //Adding the firt letter the word
+                                                                let word = matrix[rowIndexFirst][colIndexFirst]
+
+                                                                for (let i = (colIndexFirst) + 1; i < colIndexLast + 1; i++){
+                                                                    word += `${matrix[rowIndexFirst][i]}`
+                                                                    console.log(word)
+                                                                }
+
+                                                                alert(word)
+                                                                //check the word on the vocabulary
+                                                                //if valid go on else exit now
+
+                                                                //light on all the letters
+                                                                for (let i = firstPosition; i <= lastPosition; i++)
+                                                                    handleBrightCells(i)
+
+                                                                handleNewWord(true);
+
+                                                                handleFirstLetter(-1);
+                                                                handleLastLetter(-1);
+                                                                break;
+                                                            }
+                                                            
+                                                            // ------------------------------- //
+                                                            // -------Vertical positive------- //
+                                                            // ------------------------------- //
+                                                            else if (colIndexFirst == colIndexLast) {
+
+
+                                                                let numberOfLetters = (rowIndexLast - rowIndexFirst) + 1
+                                                                
+                                                                //Adding the firt letter the word
+                                                                let word = matrix[rowIndexFirst][colIndexFirst]
+
+                                                                for(let i=rowIndexFirst + 1; i < rowIndexLast + 1; i++){
+                                                                    console.log(i)
+                                                                    word += `${matrix[i][colIndexFirst]}`
+                                                                }
+                                                                alert(word)
+
+                                                                //check the word on the vocabulary
+                                                                //if valid go on else exit now
+
+                                                                //light on all the letters                                                               
+                                                                for (let i = firstPosition; i <= lastPosition; i = i+gridFactor){
+                                                                    console.log(i)
+                                                                    handleBrightCells(i)
+                                                                }
+                                                                handleNewWord(true);
+
+                                                                handleFirstLetter(-1);
+                                                                handleLastLetter(-1);
+                                                                break;
+                                                            }
+
+                                                            // ------------------------------- //
+                                                            //-------Oblique positive(>)------ //
+                                                            // ------------------------------- //
+                                                            else if (rowIndexLast > rowIndexFirst && colIndexLast > colIndexFirst) {
+                                                                let numberOfLetters = (rowIndexLast - rowIndexFirst) + 1
+
+                                                                //The selection is not oblique
+                                                                if(colIndexLast != (colIndexFirst + numberOfLetters - 1)){
+                                                                    handleLastLetter(-1);
+                                                                    break;
+                                                                }
+                                                                
+                                                                //Adding the firt letter the word
+                                                                let word = matrix[rowIndexFirst][colIndexFirst]
+
+                                                                let colIndex = colIndexFirst + 1;
+
+                                                                for(let i=rowIndexFirst + 1; i < rowIndexLast + 1; i++){
+                                                                    console.log(i)
+                                                                    word += `${matrix[i][colIndex]}`
+                                                                    colIndex++;
+                                                                }
+                                                                alert(word)
+
+                                                                //check the word on the vocabulary
+                                                                //if valid go on else exit now
+
+                                                                //light on all the letters
+                                                                let index = 0;
+
+                                                                for (let i = firstPosition; i <= lastPosition; i = i+gridFactor){
+                                                                    console.log(i)
+                                                                    handleBrightCells(i + index)
+                                                                    index++;
+                                                                }
+
+                                                                handleNewWord(true);
+
+                                                                handleFirstLetter(-1);
+                                                                handleLastLetter(-1);
+                                                                break;
+                                                            }
+
+                                                            // ------------------------------- //
+                                                            // -------Oblique positive(<)----- //
+                                                            // ------------------------------- //
+                                                            else if (rowIndexLast > rowIndexFirst && colIndexLast < colIndexFirst ) {
+                                                                let numberOfLetters = (rowIndexLast - rowIndexFirst) + 1
+
+                                                                //The selection is not oblique
+                                                                if(colIndexLast != (colIndexFirst - (numberOfLetters - 1))){
+                                                                    handleLastLetter(-1);
+                                                                    break;
+                                                                }
+                                                                
+                                                                //Adding the firt letter the word
+                                                                let word = matrix[rowIndexFirst][colIndexFirst]
+
+                                                                let colIndex = colIndexFirst - 1;
+
+                                                                for(let i=rowIndexFirst + 1; i < rowIndexLast + 1; i++){
+                                                                    console.log(i)
+                                                                    word += `${matrix[i][colIndex]}`
+                                                                    colIndex--;
+                                                                }
+                                                                alert(word)
+
+                                                                //check the word on the vocabulary
+                                                                //if valid go on else exit now
+
+                                                                //light on all the letters
+                                                                let index = 0;
+
+                                                                for (let i = firstPosition; i <= lastPosition + gridFactor; i = i+gridFactor){
+                                                                    console.log(i)
+                                                                    handleBrightCells(i + index)
+                                                                    index--;
+                                                                }
+
+                                                                handleNewWord(true);
+
+                                                                handleFirstLetter(-1);
+                                                                handleLastLetter(-1);
+                                                                break;
+                                                            }
+                                                        
+                                                        //---------------------------------------------------------------------------------------------------------
+                                                        //lastLetter < firstLetter (negative case)
+                                                        case (false):
+                                                            // ------------------------------- //
+                                                            // ------Orizontal negative------- //
+                                                            // ------------------------------- //
+                                                            if (rowIndexFirst == rowIndexLast) {
+                                                                let numberOfLetters = (lastPosition - firstPosition) + 1
+
+                                                                //Adding the firt letter the word
+                                                                let word = matrix[rowIndexFirst][colIndexFirst]
+
+                                                                for (let i = (colIndexFirst) - 1; i > colIndexLast; i--)
+                                                                    word += `${matrix[rowIndexFirst][i]}`
+                                                                
+                                                                alert(word)
+                                                                //check the word on the vocabulary
+                                                                //if valid go on else exit now
+
+                                                                //light on all the letters
+                                                                for (let i = firstPosition; i > lastPosition; i--)
+                                                                    handleBrightCells(i)
+
+                                                                handleNewWord(true);
+
+                                                                handleFirstLetter(-1);
+                                                                handleLastLetter(-1);
+                                                                break;
+                                                            }
+                                                            
+                                                            // ------------------------------- //
+                                                            // -------Vertical positive------- //
+                                                            // ------------------------------- //
+                                                            else if (colIndexFirst == colIndexLast) {
+
                                                                 let numberOfLetters = (rowIndexLast - rowIndexFirst) + 1
                                                                 
                                                                 //Adding the firt letter the word
@@ -155,11 +334,20 @@ function GameGrid(props) {
 
                                                                 handleFirstLetter(-1);
                                                                 handleLastLetter(-1);
+                                                                break;
                                                             }
 
-                                                            //Oblique progressive
-                                                            else if (colIndexLast > colIndexFirst && rowIndexLast > rowIndexFirst) {
+                                                            // ------------------------------- //
+                                                            //-------Oblique positive(>)------ //
+                                                            // ------------------------------- //
+                                                            else if (rowIndexLast > rowIndexFirst && colIndexLast > colIndexFirst) {
                                                                 let numberOfLetters = (rowIndexLast - rowIndexFirst) + 1
+
+                                                                //The selection is not oblique
+                                                                if(colIndexLast != (colIndexFirst + numberOfLetters - 1)){
+                                                                    handleLastLetter(-1);
+                                                                    break;
+                                                                }
                                                                 
                                                                 //Adding the firt letter the word
                                                                 let word = matrix[rowIndexFirst][colIndexFirst]
@@ -195,38 +383,57 @@ function GameGrid(props) {
 
                                                                 handleFirstLetter(-1);
                                                                 handleLastLetter(-1);
+                                                                break;
                                                             }
 
-                                                            //Inline progressive
-                                                            else if (rowIndexFirst == rowIndexLast) {
+                                                            // ------------------------------- //
+                                                            // -------Oblique positive(<)----- //
+                                                            // ------------------------------- //
+                                                            else if (rowIndexLast > rowIndexFirst && colIndexLast < colIndexFirst ) {
+                                                                let numberOfLetters = (rowIndexLast - rowIndexFirst) + 1
 
-                                                                let numberOfLetters = (lastPosition - firstPosition) + 1
-
+                                                                //The selection is not oblique
+                                                                if(colIndexLast != (colIndexFirst - (numberOfLetters - 1))){
+                                                                    handleLastLetter(-1);
+                                                                    break;
+                                                                }
+                                                                
                                                                 //Adding the firt letter the word
                                                                 let word = matrix[rowIndexFirst][colIndexFirst]
 
-                                                                for (let i = (colIndexFirst) + 1; i < colIndexFirst + numberOfLetters; i++)
-                                                                    word += `${matrix[rowIndexFirst][i]}`
-                                                                
+                                                                let colIndex = colIndexFirst - 1;
+
+                                                                for(let i=rowIndexFirst + 1; i < rowIndexLast + 1; i++){
+                                                                    console.log(i)
+                                                                    word += `${matrix[i][colIndex]}`
+                                                                    colIndex--;
+                                                                }
                                                                 alert(word)
+
                                                                 //check the word on the vocabulary
                                                                 //if valid go on else exit now
 
                                                                 //light on all the letters
-                                                                for (let i = firstPosition; i < lastPosition; i++)
-                                                                    handleBrightCells(i)
+                                                                console.log('hello')
+                                                                console.log(lastPosition)
+                                                                console.log('hello')
+                                                                
+                                                                let index = 0;
+
+                                                                for (let i = firstPosition; i <= lastPosition + gridFactor; i = i+gridFactor){
+                                                                    console.log(i)
+                                                                    handleBrightCells(i + index)
+                                                                    index--;
+                                                                }
+
+                                                                console.log('yooo')
 
                                                                 handleNewWord(true);
 
                                                                 handleFirstLetter(-1);
                                                                 handleLastLetter(-1);
-
+                                                                break;
                                                             }
-
-
-                                                        //lastLetter < firstLetter
-                                                        case (false):
-                                                        // <--
                                                     }
 
 
