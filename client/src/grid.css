@@ -15,7 +15,7 @@
 	border-style: solid;
 	border-width: 2px;
 	border-color: #dfe2e6;
-    width: 263px;
+    width: 208px;
     height: 129px;
 }
 
@@ -25,7 +25,7 @@
 	border-style: solid;
 	border-width: 2px;
 	border-color: #dfe2e6;
-    width: 545px;
+    width: 424px;
     height: 265px;
 }
 
@@ -35,7 +35,7 @@
 	border-style: solid;
 	border-width: 2px;
 	border-color: #dfe2e6;
-    width: 827px;
+    width: 640px;
     height: 401px;
 }
 
@@ -45,7 +45,7 @@
 	border-style: solid;
 	border-width: 2px;
 	border-color: #dfe2e6;
-    width: 1109px;
+    width: 856px;
     height: 536px;
 }
 
@@ -55,17 +55,16 @@
 	border-style: solid;
 	border-width: 2px;
 	border-color: #dfe2e6;
-    width: 1391px;
+    width: 1072px;
     height: 672px;
 }
 
 
 .frame {
-    
     display: flex;
     justify-content: center;
     align-items: center;
-
+    background-color:rgb(152, 251, 201);
 	background-repeat: no-repeat;
     background-size: contain;
 	border-style: solid;
@@ -76,13 +75,33 @@
     height: 25px;
     margin-top: -1px;
     margin-left: 11px;
-    margin-right: 10px;
+    margin-right: -1px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.frame:hover {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:rgb(122, 161, 245);
+    color:white;
+	background-repeat: no-repeat;
+    background-size: contain;
+	border-style: solid;
+	border-width: thin;
+	border-color: #dfe2e6;
+	border-radius: 10%;
+    width: 25px;
+    height: 25px;
+    margin-top: -1px;
+    margin-left: 11px;
+    margin-right: -1px;
     margin-bottom: 10px;
     text-align: center;
 }
 
 .frame-selected {
-    
     display: flex;
     justify-content: center;
     align-items: center;
@@ -91,13 +110,13 @@
     background-size: contain;
 	border-style: solid;
 	border-width: thin;
-	border-color: #dfe2e6;
+	border-color: #2376e2;
 	border-radius: 10%;
     width: 25px;
     height: 25px;
     margin-top: -1px;
     margin-left: 11px;
-    margin-right: 10px;
+    margin-right: -1px;
     margin-bottom: 10px;
     text-align: center;
 }
