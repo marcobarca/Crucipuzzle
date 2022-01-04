@@ -3,7 +3,6 @@ import * as Icons from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
 import './grid.css'
 import { useState, useEffect } from 'react';
-import React from 'react';
 
 
 
@@ -19,17 +18,45 @@ function GameGrid(props) {
         setFirstLetter(n);
     }
 
-    //Last Letter selected
     const [lastLetter, setLastLetter] = useState(-1);
     const handleLastLetter = (n) => {
         setLastLetter(n);
     }
 
-    function verifySelected(innerIndex, index){
-        if(firstLetter == (innerIndex + index * (props.gameDifficult * 6)) || lastLetter == (innerIndex + index * (props.gameDifficult * 6)))
+    const [words, setWords] = useState([]);
+    const handleWords = (words) => {
+        setWords(words)
+    }
+
+    const [brightCells, setBrightCells] = useState([]);
+
+    const handleBrightCells = (cell) => {
+        let tmp = brightCells;
+        tmp.push(cell)
+        setBrightCells(tmp)
+    }
+
+    const [newWord, setNewWord] = useState(false);
+    const handleNewWord = (bool) => {
+        setNewWord(bool)
+    }
+
+
+    //This function check if the letter is selected, based on the states (firstLetter and lastLetter)
+    function verifySelected(innerIndex, index) {
+        if (firstLetter == innerIndex + index * (props.gameDifficult * 6) || lastLetter == innerIndex + index * (props.gameDifficult * 6))
             return true;
-        else   
+        else
             return false;
+    }
+
+    function verifyFound(innerIndex, index) {
+        if (newWord) {
+            for (let i = 0; i < brightCells.length; i++)
+                if (brightCells[i] == innerIndex + index * (props.gameDifficult * 6))
+                    return true
+            return false;
+        }
     }
 
 
@@ -41,27 +68,120 @@ function GameGrid(props) {
                         return (
                             <Row key={index} >
                                 {innerMatrix.map((element, innerIndex) => {
-                                    return (
-                                        <Container
-                                            className={"frame" + `${ verifySelected(innerIndex, index) ? "-selected" : ''}` + " text_image" + `${props.gameDifficult}`}
+                                    return ( 
+                                        <Container 
+                                            className={"frame" + `${verifySelected(innerIndex, index) ? "-selected" : `${verifyFound(innerIndex, index) ? "-found" : ''}`}` + " text_image" + `${props.gameDifficult}`}
                                             key={innerIndex + index * (props.gameDifficult * 6)}
                                             onClick={() => {
                                                 //Unselect the firstLetter (also the Last letter will be unselected)
-                                                if(firstLetter == (innerIndex + index * (props.gameDifficult * 6))){
+                                                if (firstLetter == (innerIndex + index * (props.gameDifficult * 6))) {
                                                     handleFirstLetter(-1);
                                                     handleLastLetter(-1);
+
                                                 }
-                                                //Unselect the firstLetter
-                                                if(lastLetter == (innerIndex + index * (props.gameDifficult * 6)))
-                                                handleFirstLetter(-1);
+                                                //Unselect the lastLetter
+                                                else if (lastLetter == (innerIndex + index * (props.gameDifficult * 6))) {
+                                                    handleLastLetter(-1);
+
+                                                }
 
                                                 //Select the FirstLetter
-                                                else if(firstLetter == -1)
+                                                else if (firstLetter == -1) {
                                                     handleFirstLetter(innerIndex + index * (props.gameDifficult * 6))
 
+                                                }
+
                                                 //Select the LastLetter
-                                                else if(firstLetter != -1 && firstLetter != (innerIndex + index * (props.gameDifficult * 6)))
+                                                else if (firstLetter != -1 && firstLetter != (innerIndex + index * (props.gameDifficult * 6)) && lastLetter == -1) {
                                                     handleLastLetter(innerIndex + index * (props.gameDifficult * 6))
+                                                    let tmp = words;
+                                                    tmp.push([firstLetter, innerIndex + index * (props.gameDifficult * 6)])
+                                                    handleWords(tmp)
+                                                    /*
+                                                    console.log('ciao')
+                                                    console.log((~~((innerIndex + index * (props.gameDifficult * 6)) / 6)))
+                                                    console.log((~~(firstLetter / 6)))
+                                                    console.log('ciao')
+                                                    console.log(matrix[1][1])
+                                                    */
+
+                                                    let gridFactor = props.gameDifficult * 6
+                                                    let firstPosition = firstLetter;
+                                                    let lastPosition = innerIndex + index * gridFactor;
+
+                                                    let rowIndexFirst = ~~(firstPosition / gridFactor)
+                                                    let colIndexFirst = firstPosition % gridFactor
+
+                                                    let rowIndexLast = ~~(lastPosition / gridFactor)
+                                                    let colIndexLast = lastPosition % gridFactor
+
+
+                                                    //lastLetter > firstLetter (switch case)
+
+                                                    switch (LastPosition > firstPosition) {
+
+                                                        //lastLetter > firstLetter (Progressive case)
+                                                        case (true):
+
+                                                            //Vertical progressive
+                                                            if (colIndexFirst == colIndexLast) {
+                                                                let numberOfLetters = (rowIndexLast - rowIndexFirst) + 1
+                                                                
+                                                                //Adding the firt letter the word
+                                                                let word = matrix[rowIndexFirst][colIndexFirst]
+
+                                                                for(let i=rowIndexFirst + gridFactor; i < rowIndexFirst + (numberOfLetters * gridFactor); i+gridFactor)
+                                                                    word += `${matrix[i][colIndexFirst]}`
+
+                                                                alert(word)
+
+                                                                //check the word on the vocabulary
+                                                                //if valid go on else exit now
+
+                                                                //light on all the letters
+                                                                for (let i = firstPosition; i < firstPosition + numberOfLetters; i+6)
+                                                                    handleBrightCells(i)
+
+                                                                handleNewWord(true);
+
+                                                                handleFirstLetter(-1);
+                                                                handleLastLetter(-1);
+                                                            }
+
+                                                            //Inline progressive
+                                                            else if (rowIndexFirst == rowIndexLast) {
+
+                                                                let numberOfLetters = (lastPosition - firstPosition) + 1
+
+                                                                //Adding the firt letter the word
+                                                                let word = matrix[rowIndexFirst][colIndexFirst]
+
+                                                                for (let i = (colIndexFirst) + 1; i < colIndexFirst + numberOfLetters; i++)
+                                                                    word += `${matrix[rowIndexFirst][i]}`
+                                                                
+                                                                alert(word)
+                                                                //check the word on the vocabulary
+                                                                //if valid go on else exit now
+
+                                                                //light on all the letters
+                                                                for (let i = firstPosition; i < firstPosition + numberOfLetters; i++)
+                                                                    handleBrightCells(i)
+
+                                                                handleNewWord(true);
+
+                                                                handleFirstLetter(-1);
+                                                                handleLastLetter(-1);
+
+                                                            }
+
+
+                                                        //lastLetter < firstLetter
+                                                        case (false):
+                                                        // <--
+                                                    }
+
+
+                                                }
                                             }}
                                         >
                                             {element}
