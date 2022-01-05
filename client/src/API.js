@@ -8,6 +8,15 @@ exports.getPuzzle = async (gameDifficult, setPuzzle, setLoading) => {
     }
 }
 
+exports.getWordCheck = async (word, setWordCheck) => {
+  const response = await fetch('/api/check?word=' + word);
+  const responseBody = await response.json();
+  if (response.ok) {
+      setWordCheck(responseBody);
+      console.log(responseBody)
+  }
+}
+
 
 exports.logIn = async (credentials) => {
     let response = await fetch('api/sessions', {

@@ -16,6 +16,20 @@ app = new express();
 app.use(morgan('dev'));
 app.use(express.json());
 
+let wordList = [];
+
+//Load the list at start
+var fs = require('fs');
+fs.readFile('words.txt', function (err, data) {
+  if (err) throw err;
+  var array = data.toString().split("\n");
+  for (i in array) {
+    wordList.push(array[i].replace(/(\r\n|\n|\r)/gm, ""))
+  }
+});
+
+
+
 
 /*** Set up Passport ***/
 // set up the "username and password" login strategy
@@ -132,46 +146,13 @@ app.get('/api/puzzle', async (req, res) => {
 })
 
 
-app.post('/api/memes', [
-  check('title').notEmpty().isString(),
-  check('is_Protected').isBoolean(),
-  check('creator').isString(),
-  check('text1').notEmpty().isString(),
-  check('text2').isString(),
-  check('text3').isString(),
-  check('textColor').notEmpty().isString(),
-  check('textFont').notEmpty().isString(),
-  check('textSize').notEmpty().isNumeric(),
-  check('textUppercase').isString(),
-  check('textBold').isString(),
-  check('textItalic').isString(),
-  check('date').isDate(),
-], async (req, res) => {
-  const meme = {
-    title: req.body.title,
-    imgCode: req.body.imgCode,
-    is_protected: req.body.is_protected,
-    creator: req.body.creator,
-    text1: req.body.text1,
-    text2: req.body.text2,
-    text3: req.body.text3,
-    textColor: req.body.textColor,
-    textFont: req.body.textFont,
-    textSize: req.body.textSize,
-    textUppercase: req.body.textUppercase,
-    textBold: req.body.textBold,
-    textItalic: req.body.textItalic,
-    date: req.body.date,
-  }
-  try {
-    await dao.createMeme(meme);
-    res.status(201).end();
-  } catch (err) {
-    {/*res.status(503).json({ error: `Database error during the update of meme ${meme.title}.` });*/ }
-    res.status(503).json({ err });
-  }
 
+app.get('/api/check', async (req, res) => {
+    res.status(200).send(wordList.includes(req.query.word))
 })
+
+
+
 
 /*** USER APIs ***/
 

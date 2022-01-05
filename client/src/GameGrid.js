@@ -3,6 +3,7 @@ import * as Icons from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
 import './grid.css'
 import { useState, useEffect } from 'react';
+import * as API from './API';
 
 
 
@@ -26,6 +27,11 @@ function GameGrid(props) {
     const [words, setWords] = useState([]);
     const handleWords = (words) => {
         setWords(words)
+    }
+
+    const [wordCheck, setWordCheck] = useState(false);
+    const handleWordCheck = (bool) => {
+        setWordCheck(bool)
     }
 
     const [brightCells, setBrightCells] = useState([]);
@@ -68,8 +74,8 @@ function GameGrid(props) {
                         return (
                             <Row key={index} >
                                 {innerMatrix.map((element, innerIndex) => {
-                                    return ( 
-                                        <Container 
+                                    return (
+                                        <Container
                                             className={"frame" + `${verifySelected(innerIndex, index) ? "-selected" : `${verifyFound(innerIndex, index) ? "-found" : ''}`}` + " text_image" + `${props.gameDifficult}`}
                                             key={innerIndex + index * (props.gameDifficult * 6)}
                                             onClick={() => {
@@ -93,7 +99,7 @@ function GameGrid(props) {
 
                                                 //Select the LastLetter
                                                 else if (firstLetter != -1 && firstLetter != (innerIndex + index * (props.gameDifficult * 6)) && lastLetter == -1) {
-                                                    
+
                                                     handleLastLetter(innerIndex + index * (props.gameDifficult * 6))
                                                     /*
                                                     console.log('ciao')
@@ -126,19 +132,32 @@ function GameGrid(props) {
                                                             // ------------------------------- //
                                                             if (rowIndexFirst == rowIndexLast) {
 
+                                                                console.log("Orizontal positive")
+
                                                                 let numberOfLetters = (firstPosition - lastPosition) + 1
 
                                                                 //Adding the firt letter the word
                                                                 let word = matrix[rowIndexFirst][colIndexFirst]
 
-                                                                for (let i = (colIndexFirst) + 1; i < colIndexLast + 1; i++){
+                                                                for (let i = (colIndexFirst) + 1; i < colIndexLast + 1; i++) {
                                                                     word += `${matrix[rowIndexFirst][i]}`
-                                                                    console.log(word)
                                                                 }
 
-                                                                alert(word)
+                                                                
                                                                 //check the word on the vocabulary
                                                                 //if valid go on else exit now
+
+                                                                API.getWordCheck(word, setWordCheck);
+                                                                alert(word)
+                                                                
+
+                                                                if (!wordCheck) {
+                                                                    handleFirstLetter(-1);
+                                                                    handleLastLetter(-1);
+                                                                    break;
+                                                                }
+
+                                                                handleWordCheck(false);
 
                                                                 //light on all the letters
                                                                 for (let i = firstPosition; i <= lastPosition; i++)
@@ -150,20 +169,20 @@ function GameGrid(props) {
                                                                 handleLastLetter(-1);
                                                                 break;
                                                             }
-                                                            
+
                                                             // ------------------------------- //
                                                             // -------Vertical positive------- //
                                                             // ------------------------------- //
                                                             else if (colIndexFirst == colIndexLast) {
 
+                                                                console.log('Vertical positive')
 
                                                                 let numberOfLetters = (rowIndexLast - rowIndexFirst) + 1
-                                                                
+
                                                                 //Adding the firt letter the word
                                                                 let word = matrix[rowIndexFirst][colIndexFirst]
 
-                                                                for(let i=rowIndexFirst + 1; i < rowIndexLast + 1; i++){
-                                                                    console.log(i)
+                                                                for (let i = rowIndexFirst + 1; i < rowIndexLast + 1; i++) {
                                                                     word += `${matrix[i][colIndexFirst]}`
                                                                 }
                                                                 alert(word)
@@ -171,9 +190,16 @@ function GameGrid(props) {
                                                                 //check the word on the vocabulary
                                                                 //if valid go on else exit now
 
+                                                                API.getWordCheck(word, setWordCheck);
+
+                                                                if (!wordCheck) {
+                                                                    handleFirstLetter(-1);
+                                                                    handleLastLetter(-1);
+                                                                    break;
+                                                                }
+
                                                                 //light on all the letters                                                               
-                                                                for (let i = firstPosition; i <= lastPosition; i = i+gridFactor){
-                                                                    console.log(i)
+                                                                for (let i = firstPosition; i <= lastPosition; i = i + gridFactor) {
                                                                     handleBrightCells(i)
                                                                 }
                                                                 handleNewWord(true);
@@ -189,19 +215,21 @@ function GameGrid(props) {
                                                             else if (rowIndexLast > rowIndexFirst && colIndexLast > colIndexFirst) {
                                                                 let numberOfLetters = (rowIndexLast - rowIndexFirst) + 1
 
+                                                                console.log('Oblique positive(>)')
+
+
                                                                 //The selection is not oblique
-                                                                if(colIndexLast != (colIndexFirst + numberOfLetters - 1)){
+                                                                if (colIndexLast != (colIndexFirst + numberOfLetters - 1)) {
                                                                     handleLastLetter(-1);
                                                                     break;
                                                                 }
-                                                                
+
                                                                 //Adding the firt letter the word
                                                                 let word = matrix[rowIndexFirst][colIndexFirst]
 
                                                                 let colIndex = colIndexFirst + 1;
 
-                                                                for(let i=rowIndexFirst + 1; i < rowIndexLast + 1; i++){
-                                                                    console.log(i)
+                                                                for (let i = rowIndexFirst + 1; i < rowIndexLast + 1; i++) {
                                                                     word += `${matrix[i][colIndex]}`
                                                                     colIndex++;
                                                                 }
@@ -210,11 +238,18 @@ function GameGrid(props) {
                                                                 //check the word on the vocabulary
                                                                 //if valid go on else exit now
 
+                                                                API.getWordCheck(word, setWordCheck);
+
+                                                                if (!wordCheck) {
+                                                                    handleFirstLetter(-1);
+                                                                    handleLastLetter(-1);
+                                                                    break;
+                                                                }
+
                                                                 //light on all the letters
                                                                 let index = 0;
 
-                                                                for (let i = firstPosition; i <= lastPosition; i = i+gridFactor){
-                                                                    console.log(i)
+                                                                for (let i = firstPosition; i <= lastPosition; i = i + gridFactor) {
                                                                     handleBrightCells(i + index)
                                                                     index++;
                                                                 }
@@ -229,22 +264,23 @@ function GameGrid(props) {
                                                             // ------------------------------- //
                                                             // -------Oblique positive(<)----- //
                                                             // ------------------------------- //
-                                                            else if (rowIndexLast > rowIndexFirst && colIndexLast < colIndexFirst ) {
+                                                            else if (rowIndexLast > rowIndexFirst && colIndexLast < colIndexFirst) {
                                                                 let numberOfLetters = (rowIndexLast - rowIndexFirst) + 1
 
+                                                                console.log('Oblique positive(<)')
+
                                                                 //The selection is not oblique
-                                                                if(colIndexLast != (colIndexFirst - (numberOfLetters - 1))){
+                                                                if (colIndexLast != (colIndexFirst - (numberOfLetters - 1))) {
                                                                     handleLastLetter(-1);
                                                                     break;
                                                                 }
-                                                                
+
                                                                 //Adding the firt letter the word
                                                                 let word = matrix[rowIndexFirst][colIndexFirst]
 
                                                                 let colIndex = colIndexFirst - 1;
 
-                                                                for(let i=rowIndexFirst + 1; i < rowIndexLast + 1; i++){
-                                                                    console.log(i)
+                                                                for (let i = rowIndexFirst + 1; i < rowIndexLast + 1; i++) {
                                                                     word += `${matrix[i][colIndex]}`
                                                                     colIndex--;
                                                                 }
@@ -253,11 +289,18 @@ function GameGrid(props) {
                                                                 //check the word on the vocabulary
                                                                 //if valid go on else exit now
 
+                                                                API.getWordCheck(word, setWordCheck);
+
+                                                                if (!wordCheck) {
+                                                                    handleFirstLetter(-1);
+                                                                    handleLastLetter(-1);
+                                                                    break;
+                                                                }
+
                                                                 //light on all the letters
                                                                 let index = 0;
 
-                                                                for (let i = firstPosition; i <= lastPosition + gridFactor; i = i+gridFactor){
-                                                                    console.log(i)
+                                                                for (let i = firstPosition; i <= lastPosition + gridFactor; i = i + gridFactor) {
                                                                     handleBrightCells(i + index)
                                                                     index--;
                                                                 }
@@ -268,7 +311,7 @@ function GameGrid(props) {
                                                                 handleLastLetter(-1);
                                                                 break;
                                                             }
-                                                        
+
                                                         //---------------------------------------------------------------------------------------------------------
                                                         //lastLetter < firstLetter (negative case)
                                                         case (false):
@@ -276,6 +319,7 @@ function GameGrid(props) {
                                                             // ------Orizontal negative------- //
                                                             // ------------------------------- //
                                                             if (rowIndexFirst == rowIndexLast) {
+                                                                console.log('Orizontal negative')
                                                                 let numberOfLetters = (lastPosition - firstPosition) + 1
 
                                                                 //Adding the firt letter the word
@@ -283,10 +327,18 @@ function GameGrid(props) {
 
                                                                 for (let i = (colIndexFirst) - 1; i > colIndexLast - 1; i--)
                                                                     word += `${matrix[rowIndexFirst][i]}`
-                                                                
+
                                                                 alert(word)
                                                                 //check the word on the vocabulary
                                                                 //if valid go on else exit now
+
+                                                                API.getWordCheck(word, setWordCheck);
+
+                                                                if (!wordCheck) {
+                                                                    handleFirstLetter(-1);
+                                                                    handleLastLetter(-1);
+                                                                    break;
+                                                                }
 
                                                                 //light on all the letters
                                                                 for (let i = firstPosition; i > lastPosition - 1; i--)
@@ -298,19 +350,19 @@ function GameGrid(props) {
                                                                 handleLastLetter(-1);
                                                                 break;
                                                             }
-                                                            
+
                                                             // ------------------------------- //
-                                                            // -------Vertical positive------- //
+                                                            // -------Vertical negative------- //
                                                             // ------------------------------- //
                                                             else if (colIndexFirst == colIndexLast) {
+                                                                console.log('Vertical negative')
 
                                                                 let numberOfLetters = (rowIndexFirst - rowIndexLast) - 1
-                                                                
+
                                                                 //Adding the firt letter the word
                                                                 let word = matrix[rowIndexFirst][colIndexFirst]
 
-                                                                for(let i=rowIndexFirst - 1; i > rowIndexLast - 1; i--){
-                                                                    console.log(i)
+                                                                for (let i = rowIndexFirst - 1; i > rowIndexLast - 1; i--) {
                                                                     word += `${matrix[i][colIndexFirst]}`
                                                                 }
                                                                 alert(word)
@@ -318,9 +370,13 @@ function GameGrid(props) {
                                                                 //check the word on the vocabulary
                                                                 //if valid go on else exit now
 
+                                                                API.getWordCheck(word, setWordCheck);
+
+                                                                if (!wordCheck)
+                                                                    break;
+
                                                                 //light on all the letters
-                                                                for (let i = firstPosition; i >= lastPosition; i = i-gridFactor){
-                                                                    console.log(i)
+                                                                for (let i = firstPosition; i >= lastPosition; i = i - gridFactor) {
                                                                     handleBrightCells(i)
                                                                 }
 
@@ -332,48 +388,50 @@ function GameGrid(props) {
                                                             }
 
                                                             // ------------------------------- //
-                                                            //-------Oblique positive(>)------ //
+                                                            //-------Oblique negative(>)------ //
                                                             // ------------------------------- //
-                                                            else if (rowIndexFirst > rowIndexLast && colIndexFirst > colIndexLast) {
-                                                                let numberOfLetters = (rowIndexFirst - rowIndexLast) - 1
+                                                            else if (rowIndexFirst > rowIndexLast && colIndexFirst < colIndexLast) {
+                                                                let numberOfLetters = (rowIndexFirst - rowIndexLast) + 1
 
                                                                 //TODO
-                                                                
+                                                                console.log('Oblique negative(>)')
+
                                                                 //The selection is not oblique
-                                                                if(colIndexLast != (colIndexFirst - numberOfLetters + 1)){
+                                                                if (colIndexLast != (colIndexFirst + numberOfLetters - 1)) {
                                                                     handleLastLetter(-1);
                                                                     break;
                                                                 }
-                                                                
+
                                                                 //Adding the first letter to the word
                                                                 let word = matrix[rowIndexFirst][colIndexFirst]
 
-                                                                let colIndex = colIndexFirst - 1;
+                                                                let colIndex = colIndexFirst + 1;
 
-                                                                for(let i=rowIndexFirst - 1; i > rowIndexLast - 1; i--){
-                                                                    console.log(i)
+                                                                for (let i = rowIndexFirst - 1; i > rowIndexLast - 1; i--) {
                                                                     word += `${matrix[i][colIndex]}`
-                                                                    colIndex--;
+                                                                    colIndex++;
                                                                 }
                                                                 alert(word)
 
                                                                 //check the word on the vocabulary
                                                                 //if valid go on else exit now
 
-                                                                //light on all the letters
-                                                                console.log('hello')
-                                                                console.log(lastPosition)
-                                                                console.log('hello')
-                                                                
-                                                                let index = 0;
+                                                                API.getWordCheck(word, setWordCheck);
 
-                                                                for (let i = firstPosition; i >= lastPosition; i = i-gridFactor){
-                                                                    console.log(i)
-                                                                    handleBrightCells(i + index)
-                                                                    index--;
+                                                                if (!wordCheck) {
+                                                                    handleFirstLetter(-1);
+                                                                    handleLastLetter(-1);
+                                                                    break;
                                                                 }
 
-                                                                console.log('yooo')
+                                                                //light on all the letters
+
+                                                                let index = 0;
+
+                                                                for (let i = firstPosition; i >= lastPosition - gridFactor; i = i - gridFactor) {
+                                                                    handleBrightCells(i + index)
+                                                                    index++;
+                                                                }
 
                                                                 handleNewWord(true);
 
@@ -383,24 +441,25 @@ function GameGrid(props) {
                                                             }
 
                                                             // ------------------------------- //
-                                                            // -------Oblique positive(<)----- //
+                                                            // -------Oblique negative(<)----- //
                                                             // ------------------------------- //
-                                                            else if (rowIndexLast > rowIndexFirst && colIndexLast < colIndexFirst ) {
-                                                                let numberOfLetters = (rowIndexLast - rowIndexFirst) + 1
+                                                            else if (rowIndexLast < rowIndexFirst && colIndexLast < colIndexFirst) {
+                                                                let numberOfLetters = (rowIndexFirst - rowIndexLast) + 1
+
+                                                                console.log('Oblique negative(<)')
 
                                                                 //The selection is not oblique
-                                                                if(colIndexLast != (colIndexFirst - (numberOfLetters - 1))){
+                                                                if (colIndexLast != (colIndexFirst - (numberOfLetters - 1))) {
                                                                     handleLastLetter(-1);
                                                                     break;
                                                                 }
-                                                                
+
                                                                 //Adding the firt letter the word
                                                                 let word = matrix[rowIndexFirst][colIndexFirst]
 
                                                                 let colIndex = colIndexFirst - 1;
 
-                                                                for(let i=rowIndexFirst + 1; i < rowIndexLast + 1; i++){
-                                                                    console.log(i)
+                                                                for (let i = rowIndexFirst - 1; i > rowIndexLast - 1; i--) {
                                                                     word += `${matrix[i][colIndex]}`
                                                                     colIndex--;
                                                                 }
@@ -409,20 +468,23 @@ function GameGrid(props) {
                                                                 //check the word on the vocabulary
                                                                 //if valid go on else exit now
 
+                                                                API.getWordCheck(word, setWordCheck);
+
+
+                                                                if (!wordCheck) {
+                                                                    handleFirstLetter(-1);
+                                                                    handleLastLetter(-1);
+                                                                    break;
+                                                                }
+
                                                                 //light on all the letters
-                                                                console.log('hello')
-                                                                console.log(lastPosition)
-                                                                console.log('hello')
-                                                                
+
                                                                 let index = 0;
 
-                                                                for (let i = firstPosition; i <= lastPosition + gridFactor; i = i+gridFactor){
-                                                                    console.log(i)
+                                                                for (let i = firstPosition; i >= lastPosition; i = i - gridFactor) {
                                                                     handleBrightCells(i + index)
                                                                     index--;
                                                                 }
-
-                                                                console.log('yooo')
 
                                                                 handleNewWord(true);
 
