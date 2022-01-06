@@ -8,12 +8,12 @@ exports.getPuzzle = async (gameDifficult, setPuzzle, setLoading) => {
     }
 }
 
-exports.getWordCheck = async (word, setWordCheck) => {
+exports.getWordCheck = async (word) => {
   const response = await fetch('/api/check?word=' + word);
   const responseBody = await response.json();
+  //CONTROLLARE SE LA STRUTTURA E' CORRETTA, SE SERVE FARE QUALCOSA NEL CASO IN CUI IL SERVER NON RISPONDE AD ESEMPIO
   if (response.ok) {
-      setWordCheck(responseBody);
-      console.log(responseBody)
+      return responseBody;
   }
 }
 

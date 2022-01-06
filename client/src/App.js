@@ -42,7 +42,21 @@ function App() {
     setStart(bool);
   }
 
-  
+  //Score
+  const [score, setScore] = useState(0);
+  const handleScore = (newScore) => {
+    setScore(score + newScore)
+  }
+
+  //Score
+  const [time, setTime] = useState(0);
+  const handleTime = (newTime) => {
+    setTime(newTime)
+  }
+
+
+
+
 
   useEffect(() => {
     API.getPuzzle(gameDifficult, setPuzzle, setLoading);
@@ -91,22 +105,28 @@ function App() {
         <Route path="/main" element={
           <>
             <MyNavbar />
-            <Row>
-              <h3>Punteggio</h3>
+            <Row >
+              <Col className='aligh-right'>
+                <h3>Score: {score}</h3>
+              </Col>
+              <Col >
+                <h3>Time left: {time}s</h3>
+              </Col>
             </Row>
-            <Row>
+            <Row >
               <Container>
-                <Row>
-                  <Col/>
+                <Row >
+                  <Col />
                   <Col>
                     <GameGrid
                       gameDifficult={gameDifficult}
                       loading={loading}
                       puzzle={puzzle}
-                      className='ml-3'
+                      handleScore={handleScore}
+                      className='align-center ml-3'
                     />
                   </Col>
-                  <Col/>
+                  <Col />
                 </Row>
               </Container>
             </Row>

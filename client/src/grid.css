@@ -14,9 +14,11 @@
     background-size: contain;
 	border-style: solid;
 	border-width: 2px;
-	border-color: #dfe2e6;
+	border-color: black;
     width: 208px;
     height: 129px;
+    margin-left: 25%;
+    
 }
 
 .external-frame2 {
@@ -27,6 +29,7 @@
 	border-color: black;
     width: 424px;
     height: 265px;
+    margin: auto;
 }
 
 .external-frame3 {
@@ -34,9 +37,10 @@
     background-size: contain;
 	border-style: solid;
 	border-width: 2px;
-	border-color: #dfe2e6;
+	border-color: black;
     width: 640px;
     height: 401px;
+    margin:auto;
 }
 
 .external-frame4 {
@@ -44,9 +48,10 @@
     background-size: contain;
 	border-style: solid;
 	border-width: 2px;
-	border-color: #dfe2e6;
+	border-color: black;
     width: 856px;
     height: 536px;
+    margin-left: 25%;
 }
 
 .external-frame5 {
@@ -54,9 +59,10 @@
     background-size: contain;
 	border-style: solid;
 	border-width: 2px;
-	border-color: #dfe2e6;
+	border-color: black;
     width: 1072px;
     height: 672px;
+    margin-left: 25%;
 }
 
 
