@@ -11,6 +11,7 @@ import './rainbowText.css'
 import { MyModal } from './MyModal.js'
 import { MyNavbar } from './MyNavbar.js'
 import { GameGrid } from './GameGrid.js'
+import { Timer } from './Timer.js'
 import * as API from './API';
 
 function App() {
@@ -37,9 +38,15 @@ function App() {
 
   const [loading, setLoading] = useState(true);
 
+  //The start state is true only while the user is playing
   const [start, setStart] = useState(false);
   const handleStart = (bool) => {
     setStart(bool);
+  }
+
+  const [timeOver, setTimeOver] = useState(false);
+  const handleTimeOver = (bool) => {
+    setTimeOver(bool);
   }
 
   //Score
@@ -55,12 +62,9 @@ function App() {
   }
 
 
-
-
-
   useEffect(() => {
     API.getPuzzle(gameDifficult, setPuzzle, setLoading);
-  }, [start])
+  }, [start, gameDifficult])
 
 
   return (
@@ -107,10 +111,12 @@ function App() {
             <MyNavbar />
             <Row >
               <Col className='aligh-right'>
-                <h3>Score: {score}</h3>
+                <Row>  <h3>Score: {score}</h3></Row>
+                <Row> <Timer className="p-100" start={start} handleStart={handleStart} handleTimeOver={handleTimeOver}/></Row>
+
               </Col>
               <Col >
-                <h3>Time left: {time}s</h3>
+
               </Col>
             </Row>
             <Row >
@@ -138,6 +144,14 @@ function App() {
               handleGameDifficult={handleGameDifficult}
               puzzle={puzzle}
               handleStart={handleStart}
+            />
+            {/* ******* Score Modal ******* */}
+            <MyModal
+              start={start}
+              score={score}
+              gameDifficult={gameDifficult}
+              handleStart={handleStart}
+              timeOver={timeOver}
             />
           </>
         }>

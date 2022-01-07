@@ -34,6 +34,21 @@ function GameGrid(props) {
         setBrightCells(tmp)
     }
 
+    //Selected words
+    const [selectedWords, setSelectedWords] = useState({});
+    const handleSelectedWords = (firstPosition, secondPosition) => {
+        let tmp = selectedWords;
+        tmp[firstPosition] = secondPosition;
+        setSelectedWords(tmp)
+    }
+    function checkAlreadySelected(firstPosition, secondPosition) {
+        if (selectedWords[firstPosition] == secondPosition)
+            return true;
+        else
+            return false;
+    }
+
+    //This state allows the word to light on
     const [newWord, setNewWord] = useState(false);
     const handleNewWord = (bool) => {
         setNewWord(bool)
@@ -96,6 +111,13 @@ function GameGrid(props) {
 
                                                         handleLastLetter(innerIndex + index * (props.gameDifficult * 6))
 
+                                                        //The word has already been discoved
+                                                        if (checkAlreadySelected(firstLetter, lastLetter)) {
+                                                            handleFirstLetter(-1);
+                                                            handleLastLetter(-1);
+                                                            break game_logic;
+                                                        }
+
                                                         let gridFactor = props.gameDifficult * 6
                                                         let firstPosition = firstLetter;
                                                         let lastPosition = innerIndex + index * gridFactor;
@@ -138,10 +160,13 @@ function GameGrid(props) {
 
                                                                             //Adding the score
                                                                             props.handleScore(numberOfLetters)
+
+                                                                            //Adding the word to the words discovered list
+                                                                            handleSelectedWords(firstLetter, lastLetter);
                                                                         }
-                                                                        handleFirstLetter(-1);
-                                                                        handleLastLetter(-1);
                                                                     })
+                                                                    handleFirstLetter(-1);
+                                                                    handleLastLetter(-1);
 
                                                                     break game_logic;
                                                                 }
@@ -173,11 +198,14 @@ function GameGrid(props) {
 
                                                                             //Adding the score
                                                                             props.handleScore(numberOfLetters)
-                                                                            
+
+                                                                            //Adding the word to the words discovered list
+                                                                            handleSelectedWords(firstLetter, lastLetter);
+
                                                                         }
-                                                                        handleFirstLetter(-1);
-                                                                        handleLastLetter(-1);
                                                                     })
+                                                                    handleFirstLetter(-1);
+                                                                    handleLastLetter(-1);
 
                                                                     break game_logic;
                                                                 }
@@ -221,11 +249,14 @@ function GameGrid(props) {
 
                                                                             //Adding the score
                                                                             props.handleScore(numberOfLetters)
-                                                                            
+
+                                                                            //Adding the word to the words discovered list
+                                                                            handleSelectedWords(firstLetter, lastLetter);
+
                                                                         }
-                                                                        handleFirstLetter(-1);
-                                                                        handleLastLetter(-1);
                                                                     })
+                                                                    handleFirstLetter(-1);
+                                                                    handleLastLetter(-1);
 
                                                                     break game_logic;
                                                                 }
@@ -269,10 +300,13 @@ function GameGrid(props) {
 
                                                                             //Adding the score
                                                                             props.handleScore(numberOfLetters)
+
+                                                                            //Adding the word to the words discovered list
+                                                                            handleSelectedWords(firstLetter, lastLetter);
                                                                         }
-                                                                        handleFirstLetter(-1);
-                                                                        handleLastLetter(-1);
                                                                     })
+                                                                    handleFirstLetter(-1);
+                                                                    handleLastLetter(-1);
 
                                                                     break game_logic;
                                                                 }
@@ -306,10 +340,13 @@ function GameGrid(props) {
 
                                                                             //Adding the score
                                                                             props.handleScore(numberOfLetters)
+
+                                                                            //Adding the word to the words discovered list
+                                                                            handleSelectedWords(firstLetter, lastLetter);
                                                                         }
-                                                                        handleFirstLetter(-1);
-                                                                        handleLastLetter(-1);
                                                                     })
+                                                                    handleFirstLetter(-1);
+                                                                    handleLastLetter(-1);
 
                                                                     break game_logic;
                                                                 }
@@ -341,10 +378,13 @@ function GameGrid(props) {
 
                                                                             //Adding the score
                                                                             props.handleScore(numberOfLetters)
+
+                                                                            //Adding the word to the words discovered list
+                                                                            handleSelectedWords(firstLetter, lastLetter);
                                                                         }
-                                                                        handleFirstLetter(-1);
-                                                                        handleLastLetter(-1);
                                                                     })
+                                                                    handleFirstLetter(-1);
+                                                                    handleLastLetter(-1);
 
                                                                     break game_logic;
                                                                 }
@@ -388,10 +428,13 @@ function GameGrid(props) {
 
                                                                             //Adding the score
                                                                             props.handleScore(numberOfLetters)
+
+                                                                            //Adding the word to the words discovered list
+                                                                            handleSelectedWords(firstLetter, lastLetter);
                                                                         }
-                                                                        handleFirstLetter(-1);
-                                                                        handleLastLetter(-1);
                                                                     })
+                                                                    handleFirstLetter(-1);
+                                                                    handleLastLetter(-1);
 
                                                                     break game_logic;
                                                                 }
@@ -424,7 +467,7 @@ function GameGrid(props) {
                                                                     //check the word on the vocabulary
                                                                     API.getWordCheck(word).then((result) => {
                                                                         if (result) {
-                                                                            
+
                                                                             //light on all the letters
                                                                             let index = 0;
                                                                             for (let i = firstPosition; i >= lastPosition; i = i - gridFactor) {
@@ -435,10 +478,13 @@ function GameGrid(props) {
 
                                                                             //Adding the score
                                                                             props.handleScore(numberOfLetters)
+
+                                                                            //Adding the word to the words discovered list
+                                                                            handleSelectedWords(firstLetter, lastLetter);
                                                                         }
-                                                                        handleFirstLetter(-1);
-                                                                        handleLastLetter(-1);
                                                                     })
+                                                                    handleFirstLetter(-1);
+                                                                    handleLastLetter(-1);
 
                                                                     break game_logic;
                                                                 }

@@ -2,7 +2,6 @@ import { Modal } from 'react-bootstrap'
 import { Col, Row, Container, Image, Button, Toast, Dropdown, Nav, NavDropdown } from "react-bootstrap"
 
 function MyModal(props) {
-
     return (
         <Modal show={props.showSettingsModal} onHide={() => props.handleShowSettingsModal(false)}>
             <Modal.Header closeButton>
@@ -25,23 +24,23 @@ function MyModal(props) {
                             >
                                 <NavDropdown.Item onClick={() => {
                                     props.handleGameDifficult('1')
-                                    
+
                                 }}>1</NavDropdown.Item>
                                 <NavDropdown.Item onClick={() => {
                                     props.handleGameDifficult('2')
-                                    
+
                                 }}>2</NavDropdown.Item>
                                 <NavDropdown.Item onClick={() => {
                                     props.handleGameDifficult('3')
-                                    
+
                                 }}>3</NavDropdown.Item>
                                 <NavDropdown.Item onClick={() => {
                                     props.handleGameDifficult('4')
-                                    
+
                                 }}>4</NavDropdown.Item>
                                 <NavDropdown.Item onClick={() => {
                                     props.handleGameDifficult('5')
-                                    
+
                                 }}>5</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
@@ -69,4 +68,39 @@ function MyModal(props) {
     )
 }
 
-export { MyModal };
+function MyScoreModal(props) {
+
+    return (
+        <Modal show={props.timeOver} onHide={() => props.handleShowSettingsModal(false)}>
+            <Modal.Header closeButton>
+                <Modal.Title>Game finished</Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body>
+                <Row>
+                    <h4>
+                        Your score is: {props.score * props.gameDifficult}
+                    </h4>
+                </Row>
+
+            </Modal.Body>
+
+            <Modal.Footer>
+                <Button variant="secondary"
+                    onClick={() => {
+                        props.handleShowSettingsModal(false)
+                    }}
+                >Exit</Button>
+                <Button variant="primary"
+                    onClick={() => {
+                        props.handleShowSettingsModal(false)
+                        props.handleStart(true)
+                    }}
+                >Start game</Button>
+            </Modal.Footer>
+        </Modal >
+
+    )
+}
+
+export { MyModal, MyScoreModal };
