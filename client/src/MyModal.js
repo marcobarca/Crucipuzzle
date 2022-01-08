@@ -1,9 +1,9 @@
-import { Modal } from 'react-bootstrap'
-import { Col, Row, Container, Image, Button, Toast, Dropdown, Nav, NavDropdown } from "react-bootstrap"
+import { Modal, Col, Row, Container, Image, Button, Toast, Dropdown, Nav, NavDropdown } from "react-bootstrap"
+import { Link } from 'react-router-dom';
 
 function MyModal(props) {
     return (
-        <Modal show={props.showSettingsModal} onHide={() => props.handleShowSettingsModal(false)}>
+        <Modal show={props.showSettingsModal} backdrop="static" onHide={() => props.handleShowSettingsModal(false)}>
             <Modal.Header closeButton>
                 <Modal.Title>Game Settings</Modal.Title>
             </Modal.Header>
@@ -51,11 +51,13 @@ function MyModal(props) {
             </Modal.Body>
 
             <Modal.Footer>
-                <Button variant="secondary"
-                    onClick={() => {
-                        props.handleShowSettingsModal(false)
-                    }}
-                >Exit</Button>
+                <Link to="/">
+                    <Button variant="secondary"
+                        onClick={() => {
+                            props.handleShowSettingsModal(false)
+                        }}
+                    >Exit</Button>
+                </Link>
                 <Button variant="primary"
                     onClick={() => {
                         props.handleShowSettingsModal(false)
@@ -71,7 +73,7 @@ function MyModal(props) {
 function MyScoreModal(props) {
 
     return (
-        <Modal show={props.timeOver} onHide={() => props.handleShowSettingsModal(false)}>
+        <Modal show={props.showScoreModal} backdrop="static" onHide={() => props.handleShowScoreModal(false)}>
             <Modal.Header closeButton>
                 <Modal.Title>Game finished</Modal.Title>
             </Modal.Header>
@@ -86,17 +88,20 @@ function MyScoreModal(props) {
             </Modal.Body>
 
             <Modal.Footer>
-                <Button variant="secondary"
-                    onClick={() => {
-                        props.handleShowSettingsModal(false)
-                    }}
-                >Exit</Button>
+                <Link to="/">
+                    <Button variant="secondary"
+                        onClick={() => {
+                            props.handleShowScoreModal(false);
+                        }}
+                    >Exit</Button>
+                </Link>
                 <Button variant="primary"
                     onClick={() => {
-                        props.handleShowSettingsModal(false)
-                        props.handleStart(true)
+                        props.handleShowScoreModal(false);
+                        props.handleStart(true);
+                        props.resetScore();
                     }}
-                >Start game</Button>
+                >Play Again</Button>
             </Modal.Footer>
         </Modal >
 

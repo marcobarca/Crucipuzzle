@@ -25,15 +25,6 @@ function GameGrid(props) {
     }
 
 
-    //State that mantain the coordinates of the lighted on cells
-    const [brightCells, setBrightCells] = useState([]);
-
-    const handleBrightCells = (cell) => {
-        let tmp = brightCells;
-        tmp.push(cell)
-        setBrightCells(tmp)
-    }
-
     //Selected words
     const [selectedWords, setSelectedWords] = useState({});
     const handleSelectedWords = (firstPosition, secondPosition) => {
@@ -65,8 +56,8 @@ function GameGrid(props) {
 
     function verifyFound(innerIndex, index) {
         if (newWord) {
-            for (let i = 0; i < brightCells.length; i++)
-                if (brightCells[i] == innerIndex + index * (props.gameDifficult * 6))
+            for (let i = 0; i < props.brightCells.length; i++)
+                if (props.brightCells[i] == innerIndex + index * (props.gameDifficult * 6))
                     return true
             return false;
         }
@@ -155,7 +146,7 @@ function GameGrid(props) {
 
                                                                             //light on all the letters
                                                                             for (let i = firstPosition; i <= lastPosition; i++)
-                                                                                handleBrightCells(i)
+                                                                                props.handleBrightCells(i)
                                                                             handleNewWord(true);
 
                                                                             //Adding the score
@@ -193,7 +184,7 @@ function GameGrid(props) {
 
                                                                             //light on all the letters
                                                                             for (let i = firstPosition; i <= lastPosition; i = i + gridFactor)
-                                                                                handleBrightCells(i)
+                                                                                props.handleBrightCells(i)
                                                                             handleNewWord(true);
 
                                                                             //Adding the score
@@ -242,7 +233,7 @@ function GameGrid(props) {
                                                                             //light on all the letters
                                                                             let index = 0;
                                                                             for (let i = firstPosition; i <= lastPosition; i = i + gridFactor) {
-                                                                                handleBrightCells(i + index)
+                                                                                props.handleBrightCells(i + index)
                                                                                 index++;
                                                                             }
                                                                             handleNewWord(true);
@@ -293,7 +284,7 @@ function GameGrid(props) {
                                                                             //light on all the letters
                                                                             let index = 0;
                                                                             for (let i = firstPosition; i <= lastPosition + gridFactor; i = i + gridFactor) {
-                                                                                handleBrightCells(i + index)
+                                                                                props.handleBrightCells(i + index)
                                                                                 index--;
                                                                             }
                                                                             handleNewWord(true);
@@ -335,7 +326,7 @@ function GameGrid(props) {
 
                                                                             //light on all the letters
                                                                             for (let i = firstPosition; i > lastPosition - 1; i--)
-                                                                                handleBrightCells(i)
+                                                                                props.handleBrightCells(i)
                                                                             handleNewWord(true);
 
                                                                             //Adding the score
@@ -373,7 +364,7 @@ function GameGrid(props) {
 
                                                                             //light on all the letters
                                                                             for (let i = firstPosition; i >= lastPosition; i = i - gridFactor)
-                                                                                handleBrightCells(i)
+                                                                                props.handleBrightCells(i)
                                                                             handleNewWord(true);
 
                                                                             //Adding the score
@@ -421,7 +412,7 @@ function GameGrid(props) {
                                                                             //light on all the letters
                                                                             let index = 0;
                                                                             for (let i = firstPosition; i >= lastPosition - gridFactor; i = i - gridFactor) {
-                                                                                handleBrightCells(i + index)
+                                                                                props.handleBrightCells(i + index)
                                                                                 index++;
                                                                             }
                                                                             handleNewWord(true);
@@ -471,7 +462,7 @@ function GameGrid(props) {
                                                                             //light on all the letters
                                                                             let index = 0;
                                                                             for (let i = firstPosition; i >= lastPosition; i = i - gridFactor) {
-                                                                                handleBrightCells(i + index)
+                                                                                props.handleBrightCells(i + index)
                                                                                 index--;
                                                                             }
                                                                             handleNewWord(true);

@@ -1,5 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Col, Row, Container, Image, Button, Toast } from "react-bootstrap"
+import { Col, Row, Container, Button} from "react-bootstrap"
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { LoginForm } from './LoginComponent'
 import './App.css';
@@ -8,7 +8,7 @@ import { Helmet } from 'react-helmet';
 import { Navigate } from 'react-router';
 import { useState, useEffect } from 'react';
 import './rainbowText.css'
-import { MyModal } from './MyModal.js'
+import { MyModal, MyScoreModal } from './MyModal.js'
 import { MyNavbar } from './MyNavbar.js'
 import { GameGrid } from './GameGrid.js'
 import { Timer } from './Timer.js'
@@ -18,6 +18,7 @@ function App() {
 
   const [user, setUser] = useState('');
   const [message, setMessage] = useState('');
+
   const [showLoginForm, setShowLoginForm] = useState(false);
   const handleShowLoginForm = (bool) => setShowLoginForm(bool);
 
@@ -25,6 +26,23 @@ function App() {
   const [showSettingsModal, setShowSettingsModal] = useState(true);
   const handleShowSettingsModal = (bool) => {
     setShowSettingsModal(bool);
+  }
+
+  //State of the Modal that appears at the end of the game
+  const [showScoreModal, setShowScoreModal] = useState(false);
+  const handleShowScoreModal = (bool) => {
+    setShowScoreModal(bool);
+  }
+
+  //State that mantain the coordinates of the lighted on cells in GameGrid
+  const [brightCells, setBrightCells] = useState([]);
+  const handleBrightCells = (cell) => {
+    let tmp = brightCells;
+    tmp.push(cell)
+    setBrightCells(tmp)
+  }
+  const resetBrightCells = () => {
+    setBrightCells([]);
   }
 
   //Game difficult level
@@ -42,11 +60,7 @@ function App() {
   const [start, setStart] = useState(false);
   const handleStart = (bool) => {
     setStart(bool);
-  }
-
-  const [timeOver, setTimeOver] = useState(false);
-  const handleTimeOver = (bool) => {
-    setTimeOver(bool);
+    resetBrightCells();
   }
 
   //Score
@@ -54,13 +68,9 @@ function App() {
   const handleScore = (newScore) => {
     setScore(score + newScore)
   }
-
-  //Score
-  const [time, setTime] = useState(0);
-  const handleTime = (newTime) => {
-    setTime(newTime)
+  const resetScore = () => {
+    setScore(0);
   }
-
 
   useEffect(() => {
     API.getPuzzle(gameDifficult, setPuzzle, setLoading);
@@ -84,7 +94,7 @@ function App() {
                     fontSize: "70px",
                     fontFamily: 'Luckiest Guy',
                   }}
-                > *CruciPuzzle*</h3>
+                > CruciPuzzle</h3>
               </Row>
               <Row>
                 <Col className="d-flex justify-content-end">
@@ -97,7 +107,10 @@ function App() {
                 </Col>
                 <Col>
                   <Link to="/main">
-                    <Button style={{ width: "150px", height: "50px" }}>Enter as guest</Button>
+                    <Button 
+                    style={{ width: "150px", height: "50px" }}
+                    onClick={ () => {handleShowSettingsModal(true)}}
+                    >Enter as guest</Button>
                   </Link>
                 </Col>
               </Row>
@@ -112,7 +125,13 @@ function App() {
             <Row >
               <Col className='aligh-right'>
                 <Row>  <h3>Score: {score}</h3></Row>
-                <Row> <Timer className="p-100" start={start} handleStart={handleStart} handleTimeOver={handleTimeOver}/></Row>
+                <Row>
+                  <Timer className="p-100"
+                    start={start}
+                    handleStart={handleStart}
+                    handleShowScoreModal={handleShowScoreModal}
+                  />
+                </Row>
 
               </Col>
               <Col >
@@ -130,6 +149,8 @@ function App() {
                       puzzle={puzzle}
                       handleScore={handleScore}
                       className='align-center ml-3'
+                      brightCells={brightCells}
+                      handleBrightCells={handleBrightCells}
                     />
                   </Col>
                   <Col />
@@ -146,12 +167,14 @@ function App() {
               handleStart={handleStart}
             />
             {/* ******* Score Modal ******* */}
-            <MyModal
+            <MyScoreModal
               start={start}
               score={score}
+              showScoreModal={showScoreModal}
+              handleShowScoreModal={handleShowScoreModal}
               gameDifficult={gameDifficult}
               handleStart={handleStart}
-              timeOver={timeOver}
+              resetScore={resetScore}
             />
           </>
         }>

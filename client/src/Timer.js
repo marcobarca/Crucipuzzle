@@ -2,15 +2,17 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 
 function Timer(props) {
-    const initialSeconds = 5;
+    const initialSeconds = 5; //***change this number to debug faster***
     const [seconds, setSeconds] = useState(initialSeconds);
     useEffect(() => {
         let myInterval = setInterval(() => {
             if (props.start && seconds > 0) {
                 setSeconds(seconds - 1);
             }
-            if(seconds == 0){
-                props.handleTimeOver(true);
+            else if(seconds == 0){
+                props.handleShowScoreModal(true);
+                props.handleStart(false);
+                setSeconds(5) //***change this number to debug faster***
             }
         }, 1000)
         return () => {
