@@ -18,7 +18,7 @@ app.use(express.json());
 
 let wordList = [];
 
-//Load the list at start
+//Load the word-list at start
 var fs = require('fs');
 fs.readFile('words.txt', function (err, data) {
   if (err) throw err;
@@ -27,8 +27,6 @@ fs.readFile('words.txt', function (err, data) {
     wordList.push(array[i].replace(/(\r\n|\n|\r)/gm, ""))
   }
 });
-
-
 
 
 /*** Set up Passport ***/
@@ -65,7 +63,6 @@ passport.deserializeUser((id, done) => {
 });
 
 
-
 // custom middleware: check if a given request is coming from an authenticated user
 const isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated())
@@ -86,7 +83,6 @@ app.use(session({
 // then, init passport
 app.use(passport.initialize());
 app.use(passport.session());
-
 
 
 // GET THE PUZZLE

@@ -1,11 +1,9 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Col, Row, Container, Button} from "react-bootstrap"
+import { Col, Row, Container, Button } from "react-bootstrap"
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { LoginForm } from './LoginComponent'
 import './App.css';
 import './LoginComponent'
-import { Helmet } from 'react-helmet';
-import { Navigate } from 'react-router';
 import { useState, useEffect } from 'react';
 import './rainbowText.css'
 import { MyModal, MyScoreModal } from './MyModal.js'
@@ -16,23 +14,21 @@ import * as API from './API';
 
 function App() {
 
-  const [user, setUser] = useState('');
-  const [message, setMessage] = useState('');
-
   const [showLoginForm, setShowLoginForm] = useState(false);
-  const handleShowLoginForm = (bool) => setShowLoginForm(bool);
+  const handleShowLoginForm = (bool) => {
+    setShowLoginForm(bool);
+  }
+
+  const [loggedIn, setLoggedIn] = useState(false);
+  const handleLoggedIn = (bool) => { setLoggedIn(bool) };
 
   //State of the Modal that allow to set the difficult
   const [showSettingsModal, setShowSettingsModal] = useState(true);
-  const handleShowSettingsModal = (bool) => {
-    setShowSettingsModal(bool);
-  }
+  const handleShowSettingsModal = (bool) => { setShowSettingsModal(bool) };
 
   //State of the Modal that appears at the end of the game
   const [showScoreModal, setShowScoreModal] = useState(false);
-  const handleShowScoreModal = (bool) => {
-    setShowScoreModal(bool);
-  }
+  const handleShowScoreModal = (bool) => { setShowScoreModal(bool) }
 
   //State that mantain the coordinates of the lighted on cells in GameGrid
   const [brightCells, setBrightCells] = useState([]);
@@ -41,20 +37,14 @@ function App() {
     tmp.push(cell)
     setBrightCells(tmp)
   }
-  const resetBrightCells = () => {
-    setBrightCells([]);
-  }
+  const resetBrightCells = () => { setBrightCells([]) };
 
   //Game difficult level
   const [gameDifficult, setGameDifficult] = useState(1);
-  const handleGameDifficult = (difficult) => {
-    setGameDifficult(difficult);
-  }
+  const handleGameDifficult = (difficult) => { setGameDifficult(difficult) }
 
   //Puzzle is the group of letters that appear 
   const [puzzle, setPuzzle] = useState([]);
-
-  const [loading, setLoading] = useState(true);
 
   //The start state is true only while the user is playing
   const [start, setStart] = useState(false);
@@ -65,17 +55,14 @@ function App() {
 
   //Score
   const [score, setScore] = useState(0);
-  const handleScore = (newScore) => {
-    setScore(score + newScore)
-  }
-  const resetScore = () => {
-    setScore(0);
-  }
+  const handleScore = (newScore) => { setScore(score + newScore) };
+  const resetScore = () => { setScore(0) };
 
   useEffect(() => {
     API.getPuzzle(gameDifficult, setPuzzle, setLoading);
   }, [start, gameDifficult])
 
+  const [loading, setLoading] = useState(true);
 
   return (
     <Router>
@@ -107,9 +94,9 @@ function App() {
                 </Col>
                 <Col>
                   <Link to="/main">
-                    <Button 
-                    style={{ width: "150px", height: "50px" }}
-                    onClick={ () => {handleShowSettingsModal(true)}}
+                    <Button
+                      style={{ width: "150px", height: "50px" }}
+                      onClick={() => { handleShowSettingsModal(true) }}
                     >Enter as guest</Button>
                   </Link>
                 </Col>
@@ -132,10 +119,8 @@ function App() {
                     handleShowScoreModal={handleShowScoreModal}
                   />
                 </Row>
-
               </Col>
               <Col >
-
               </Col>
             </Row>
             <Row >

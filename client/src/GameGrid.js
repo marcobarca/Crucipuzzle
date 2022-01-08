@@ -79,12 +79,14 @@ function GameGrid(props) {
                                             onClick={() => {
 
                                                 game_logic: {
+
                                                     //Unselect the firstLetter (also the Last letter will be unselected)
                                                     if (firstLetter == (innerIndex + index * (props.gameDifficult * 6))) {
                                                         handleFirstLetter(-1);
                                                         handleLastLetter(-1);
 
                                                     }
+
                                                     //Unselect the lastLetter
                                                     else if (lastLetter == (innerIndex + index * (props.gameDifficult * 6))) {
                                                         handleLastLetter(-1);
@@ -97,7 +99,7 @@ function GameGrid(props) {
 
                                                     }
 
-                                                    //Select the LastLetter
+                                                    //Select the LastLetter (the last selected letter defines the direction)
                                                     else if (firstLetter != -1 && firstLetter != (innerIndex + index * (props.gameDifficult * 6)) && lastLetter == -1) {
 
                                                         handleLastLetter(innerIndex + index * (props.gameDifficult * 6))
@@ -118,6 +120,8 @@ function GameGrid(props) {
 
                                                         let rowIndexLast = ~~(lastPosition / gridFactor)
                                                         let colIndexLast = lastPosition % gridFactor
+
+                                                        //THIS SWITCH PERMITS TO HANDLE THE 8 DIRECTIONS
 
                                                         switch (lastPosition > firstPosition) {
 
@@ -492,7 +496,6 @@ function GameGrid(props) {
                         )
                     })}
                 </Figure>
-
             </>
     );
 

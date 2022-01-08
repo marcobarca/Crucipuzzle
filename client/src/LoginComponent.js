@@ -2,7 +2,7 @@ import { Form, Button, Alert, Modal } from 'react-bootstrap';
 import { useState } from 'react';
 
 function LoginForm(props) {
-    const [username, setUsername] = useState('john.doe@polito.it');
+    const [username, setUsername] = useState('username');
     const [password, setPassword] = useState('password');
     const [show, setShow] = useState(false); //error alert show state
     const [errorMessage, setErrorMessage] = useState('');
@@ -10,9 +10,9 @@ function LoginForm(props) {
     const handleSubmit = (event) => {
         event.preventDefault();
         setErrorMessage('');
-        const credentials = { username, password };
+        const credentials = { username: username, password: password };
 
-        // basic validation
+        // basic validation ADD MORE
         let valid = true;
         if (username === '' || password === '' || password.length < 6) {
             valid = false;
@@ -27,7 +27,6 @@ function LoginForm(props) {
                     props.handleShow(false)
                 })
                 .catch((err) => { setErrorMessage(err); setShow(true); })
-            
         }
 
     };
