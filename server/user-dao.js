@@ -5,6 +5,7 @@ const db = require('./db');
 const bcrypt = require('bcrypt');
 
 exports.getUserById = (id) => {
+  
   return new Promise((resolve, reject) => {
     const sql = 'SELECT * FROM user WHERE id = ?';
       db.get(sql, [id], (err, row) => {

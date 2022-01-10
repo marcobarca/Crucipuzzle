@@ -1,5 +1,7 @@
 import { Form, Button, Alert, Modal } from 'react-bootstrap';
 import { useState } from 'react';
+import * as API from './API';
+
 
 function LoginForm(props) {
     const [username, setUsername] = useState('username');
@@ -14,17 +16,18 @@ function LoginForm(props) {
 
         // basic validation ADD MORE
         let valid = true;
-        if (username === '' || password === '' || password.length < 6) {
+        if (username === '' || password === '') {
             valid = false;
             setErrorMessage('Email cannot be empty and password must be at least six character long.');
             setShow(true);
         }
-
+        //Credentials are correct
         if (valid) {
-            props.login(credentials)
+            props.logIn(credentials)
                 .then(() => {
-                    props.setUser(credentials.username)
-                    props.handleShow(false)
+                    props.handleShowLoginForm(false);
+                    props.handleLoggedIn(true);
+                    props.handleUser(credentials.username);
                 })
                 .catch((err) => { setErrorMessage(err); setShow(true); })
         }
@@ -33,7 +36,7 @@ function LoginForm(props) {
 
 
     return (
-        <Modal centered show animation={false}>
+        <Modal centered show={props.showLoginForm} backdrop="static" animation={false}>
             <Form onSubmit={handleSubmit}>
                 <Modal.Header>
                     <Modal.Title>Login</Modal.Title>
@@ -47,14 +50,14 @@ function LoginForm(props) {
                         {errorMessage}
                     </Alert>
                     <Form.Group controlId="username">
-                        <Form.Label>email</Form.Label>
+                        <Form.Label>Username</Form.Label>
                         <Form.Control
-                            type="email"
+                            type="username"
                             value={username}
                             onChange={(ev) => setUsername(ev.target.value)}
                         />
                     </Form.Group>
-                    <Form.Group controlId="password">
+                    <Form.Group className='pt-'controlId="password">
                         <Form.Label>Password</Form.Label>
                         <Form.Control
                             type="password"
@@ -64,7 +67,12 @@ function LoginForm(props) {
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button type="submit">Login</Button>
+                <Button 
+                        onClick={() => props.handleShowLoginForm(false)}
+                    >Close</Button>
+                    <Button type="submit"
+                        onClick={handleSubmit}
+                    >Login</Button>
                 </Modal.Footer>
             </Form>
         </Modal>

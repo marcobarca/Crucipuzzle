@@ -17,6 +17,46 @@ exports.getWordCheck = async (word) => {
   }
 }
 
+exports.getHallOfFame = async (setHallOfFame, setLoading) => {
+  const response = await fetch('/api/HallOfFame');
+  const responseBody = await response.json();
+  //CONTROLLARE SE LA STRUTTURA E' CORRETTA, SE SERVE FARE QUALCOSA NEL CASO IN CUI IL SERVER NON RISPONDE AD ESEMPIO
+  if (response.ok) {
+      setHallOfFame(responseBody);
+      setLoading(false);
+      return responseBody;
+  }
+}
+
+exports.getMyGames = async (user, setMyGames, setLoading) => {
+  const response = await fetch('/api/MyGames?username=' + user);
+  const responseBody = await response.json();
+  //CONTROLLARE SE LA STRUTTURA E' CORRETTA, SE SERVE FARE QUALCOSA NEL CASO IN CUI IL SERVER NON RISPONDE AD ESEMPIO
+  if (response.ok) {
+      setMyGames(responseBody);
+      setLoading(false);
+      return responseBody;
+  }
+}
+
+exports.createGame = async (game) => {
+  try {
+      const response = await fetch('/api/games', {
+          method: 'POST',
+          headers: { 'Content-type': 'application/json' },
+          body: JSON.stringify({
+              username: game.username,
+              score: game.score,
+          }),
+      })
+      if (response.ok) {
+          console.log(response.json())
+      }
+  } catch (e) {
+      console.warn(e);
+  }
+}
+
 
 exports.logIn = async (credentials) => {
     let response = await fetch('api/sessions', {

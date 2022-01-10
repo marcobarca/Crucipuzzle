@@ -1,9 +1,14 @@
 import { Modal, Col, Row, Container, Image, Button, Toast, Dropdown, Nav, NavDropdown } from "react-bootstrap"
 import { Link } from 'react-router-dom';
 
+
+//*****************************************//
+//*** *******Game Settings modal******* ***//
+//*****************************************//
+
 function MyModal(props) {
     return (
-        <Modal show={props.showSettingsModal} backdrop="static" onHide={() => props.handleShowSettingsModal(false)}>
+        <Modal show={props.showSettingsModal} centered backdrop="static" onHide={() => props.handleShowSettingsModal(false)} animation={false}>
             <Modal.Header closeButton>
                 <Modal.Title>Game Settings</Modal.Title>
             </Modal.Header>
@@ -70,10 +75,13 @@ function MyModal(props) {
     )
 }
 
-function MyScoreModal(props) {
 
+//*****************************************//
+//*** ***********Score modal*********** ***//
+//*****************************************//
+function MyScoreModal(props) {
     return (
-        <Modal show={props.showScoreModal} backdrop="static" onHide={() => props.handleShowScoreModal(false)}>
+        <Modal show={props.showScoreModal} centered backdrop="static" onHide={() => props.handleShowScoreModal(false)} animation={false}>
             <Modal.Header closeButton>
                 <Modal.Title>Game finished</Modal.Title>
             </Modal.Header>

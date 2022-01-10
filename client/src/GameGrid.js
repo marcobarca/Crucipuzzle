@@ -65,7 +65,7 @@ function GameGrid(props) {
 
 
     return (
-        props.loading ? <h2 className='text-center'>Loading</h2> :
+        props.loading ? '' :
             <>
                 <Figure className={'external-frame' + `${props.gameDifficult}`} >
                     {matrix.slice(0, matrix.length).map((innerMatrix, index) => {

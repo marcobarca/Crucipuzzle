@@ -4,10 +4,7 @@ const db = require('./db');
 
 exports.createGame = (game) => {
 	return new Promise((resolve, reject) => {
-		const sql = `INSERT INTO games(
-			username, 
-			score, 
-			)VALUES(?,?)`;
+		const sql = `INSERT INTO games(username, score)VALUES(?,?)`;
 		db.run(sql, [
 			game.username,
 			game.score,
@@ -21,15 +18,21 @@ exports.createGame = (game) => {
 	});
 };
 
-exports.getGames = (username) => {
+exports.getMyGames = (username) => {
 	return new Promise((resolve, reject) => {
 		const sql = 'SELECT * FROM games WHERE username = ?';
-		db.get(sql, [username], function (err, row) {
+		db.all(sql, [username], function (err, rows) {
 			if (err) {
-				return reject(err);
+				reject(err);
+				return;
 			}
-			const game = { username: row.username, score: row.score }
-			return resolve(game);
+
+			const games = rows.map((e) => (
+				{
+					username: e.username,
+					score: e.score
+				}))
+			resolve(games);
 		});
 	});
 };

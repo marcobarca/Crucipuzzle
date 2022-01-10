@@ -37,7 +37,6 @@ passport.use(new LocalStrategy(
     userDao.getUser(username, password).then((user) => {
       if (!user)
         return done(null, false, { message: 'Incorrect username and/or password.' });
-
       return done(null, user);
     })
   }
@@ -142,10 +141,50 @@ app.get('/api/puzzle', async (req, res) => {
 })
 
 
+app.get('/api/HallOfFame', async (req, res) => {
+  try {
+    const hof = await dao.getHallOfFame();
+    res.json(hof);
+  } catch (err) {
+    res.status(500).end();
+  }
+});
 
+app.get('/api/MyGames', async (req, res) => {
+  try {
+    const games = await dao.getMyGames(req.query.username);
+    res.json(games);
+  } catch (err) {
+    res.status(500).end();
+  }
+});
+
+//CHECK IF ENGLISH WORD EXISTS
 app.get('/api/check', async (req, res) => {
-    res.status(200).send(wordList.includes(req.query.word))
+  res.status(200).send(wordList.includes(req.query.word))
 })
+
+// POST /api/games
+app.post('/api/games', [
+  check('username').notEmpty().isString(),
+  check('score').notEmpty().isNumeric()
+], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+  const game = {
+    username: req.body.username,
+    score: req.body.score,
+  };
+
+  try {
+    await dao.createGame(game);
+    res.status(201).end();
+  } catch (err) {
+    res.status(503).json({ error: `Database error during the creation of the game.` });
+  }
+});
 
 
 

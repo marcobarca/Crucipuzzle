@@ -2,17 +2,29 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 
 function Timer(props) {
-    const initialSeconds = 5; //***change this number to debug faster***
+    const initialSeconds = 60; //***change this number to debug faster***
     const [seconds, setSeconds] = useState(initialSeconds);
     useEffect(() => {
         let myInterval = setInterval(() => {
-            if (props.start && seconds > 0) {
+            if (props.start && seconds > 0 && !props.exitGame) {
                 setSeconds(seconds - 1);
             }
-            else if(seconds == 0){
+            else if (seconds == 0 || props.exitGame) {
                 props.handleShowScoreModal(true);
-                props.handleStart(false);
-                setSeconds(5) //***change this number to debug faster***
+                if (props.loggedIn) {
+                    const game = { username: props.user, score: props.score };
+                    props.createGame(game).then(() => {
+                        props.handleStart(false);
+                        props.handleExitGame(false);
+                        props.handleShowScoreModal(true);
+                    }).catch()
+                }
+                else {
+                    props.handleStart(false);
+                    props.handleExitGame(false);
+                    props.handleShowScoreModal(true);
+                }
+                setSeconds(60) //***change this number to debug faster***
             }
         }, 1000)
         return () => {
