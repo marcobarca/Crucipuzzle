@@ -1,9 +1,6 @@
-import { Card, FormControl, Col, Row, Figure, Image, Nav, Dropdown, DropdownButton, ButtonGroup, Container, Button } from 'react-bootstrap';
-import * as Icons from 'react-bootstrap-icons';
-import { Link } from 'react-router-dom';
+import {Row, Figure, Container} from 'react-bootstrap';
 import './grid.css'
-import { useState, useEffect } from 'react';
-import * as API from './API';
+import { useState } from 'react';
 
 
 
@@ -133,7 +130,7 @@ function GameGrid(props) {
                                                                 // ------------------------------- //
                                                                 if (rowIndexFirst == rowIndexLast) {
 
-                                                                    console.log("Orizontal positive")
+                                                                    //console.log("Orizontal positive")
 
                                                                     let numberOfLetters = (colIndexLast - colIndexFirst) + 1
 
@@ -145,7 +142,7 @@ function GameGrid(props) {
                                                                     }
 
                                                                     //check the word on the vocabulary
-                                                                    API.getWordCheck(word).then((result) => {
+                                                                    props.getWordCheck(word).then((result) => {
                                                                         if (result) {
 
                                                                             //light on all the letters
@@ -171,7 +168,7 @@ function GameGrid(props) {
                                                                 // ------------------------------- //
                                                                 else if (colIndexFirst == colIndexLast) {
 
-                                                                    console.log('Vertical positive')
+                                                                    //console.log('Vertical positive')
 
                                                                     let numberOfLetters = (rowIndexLast - rowIndexFirst) + 1
 
@@ -183,7 +180,7 @@ function GameGrid(props) {
                                                                     }
 
                                                                     //check the word on the vocabulary
-                                                                    API.getWordCheck(word).then((result) => {
+                                                                    props.getWordCheck(word).then((result) => {
                                                                         if (result) {
 
                                                                             //light on all the letters
@@ -210,7 +207,7 @@ function GameGrid(props) {
                                                                 // ------------------------------- //
                                                                 else if (rowIndexLast > rowIndexFirst && colIndexLast > colIndexFirst) {
 
-                                                                    console.log('Oblique positive(>)')
+                                                                    //console.log('Oblique positive(>)')
 
                                                                     let numberOfLetters = (rowIndexLast - rowIndexFirst) + 1
 
@@ -231,7 +228,7 @@ function GameGrid(props) {
                                                                     }
 
                                                                     //check the word on the vocabulary
-                                                                    API.getWordCheck(word).then((result) => {
+                                                                    props.getWordCheck(word).then((result) => {
                                                                         if (result) {
 
                                                                             //light on all the letters
@@ -261,7 +258,7 @@ function GameGrid(props) {
                                                                 // ------------------------------- //
                                                                 else if (rowIndexLast > rowIndexFirst && colIndexLast < colIndexFirst) {
 
-                                                                    console.log('Oblique positive(<)')
+                                                                    //console.log('Oblique positive(<)')
 
                                                                     let numberOfLetters = (rowIndexLast - rowIndexFirst) + 1
 
@@ -282,7 +279,7 @@ function GameGrid(props) {
                                                                     }
 
                                                                     //check the word on the vocabulary
-                                                                    API.getWordCheck(word).then((result) => {
+                                                                    props.getWordCheck(word).then((result) => {
                                                                         if (result) {
 
                                                                             //light on all the letters
@@ -307,6 +304,7 @@ function GameGrid(props) {
                                                                 }
 
                                                             //---------------------------------------------------------------------------------------------------------
+                                                            
                                                             //lastLetter < firstLetter (negative case)
                                                             case (false):
                                                                 // ------------------------------- //
@@ -314,7 +312,7 @@ function GameGrid(props) {
                                                                 // ------------------------------- //
                                                                 if (rowIndexFirst == rowIndexLast) {
 
-                                                                    console.log('Orizontal negative')
+                                                                    //console.log('Orizontal negative')
 
                                                                     let numberOfLetters = (colIndexFirst - colIndexLast) + 1
 
@@ -325,7 +323,7 @@ function GameGrid(props) {
                                                                         word += `${matrix[rowIndexFirst][i]}`
 
                                                                     //check the word on the vocabulary
-                                                                    API.getWordCheck(word).then((result) => {
+                                                                    props.getWordCheck(word).then((result) => {
                                                                         if (result) {
 
                                                                             //light on all the letters
@@ -351,7 +349,7 @@ function GameGrid(props) {
                                                                 // ------------------------------- //
                                                                 else if (colIndexFirst == colIndexLast) {
 
-                                                                    console.log('Vertical negative')
+                                                                    //console.log('Vertical negative')
 
                                                                     let numberOfLetters = (rowIndexFirst - rowIndexLast) + 1
 
@@ -363,7 +361,7 @@ function GameGrid(props) {
                                                                     }
 
                                                                     //check the word on the vocabulary
-                                                                    API.getWordCheck(word).then((result) => {
+                                                                    props.getWordCheck(word).then((result) => {
                                                                         if (result) {
 
                                                                             //light on all the letters
@@ -389,7 +387,7 @@ function GameGrid(props) {
                                                                 // ------------------------------- //
                                                                 else if (rowIndexFirst > rowIndexLast && colIndexFirst < colIndexLast) {
 
-                                                                    console.log('Oblique negative(>)')
+                                                                    //console.log('Oblique negative(>)')
 
                                                                     let numberOfLetters = (rowIndexFirst - rowIndexLast) + 1
 
@@ -410,7 +408,7 @@ function GameGrid(props) {
                                                                     }
 
                                                                     //check the word on the vocabulary
-                                                                    API.getWordCheck(word).then((result) => {
+                                                                    props.getWordCheck(word).then((result) => {
                                                                         if (result) {
 
                                                                             //light on all the letters
@@ -439,7 +437,7 @@ function GameGrid(props) {
                                                                 // ------------------------------- //
                                                                 else if (rowIndexLast < rowIndexFirst && colIndexLast < colIndexFirst) {
 
-                                                                    console.log('Oblique negative(<)')
+                                                                    //console.log('Oblique negative(<)')
 
                                                                     let numberOfLetters = (rowIndexFirst - rowIndexLast) + 1
 
@@ -460,7 +458,7 @@ function GameGrid(props) {
                                                                     }
 
                                                                     //check the word on the vocabulary
-                                                                    API.getWordCheck(word).then((result) => {
+                                                                    props.getWordCheck(word).then((result) => {
                                                                         if (result) {
 
                                                                             //light on all the letters

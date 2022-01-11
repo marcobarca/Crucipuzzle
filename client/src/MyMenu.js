@@ -11,7 +11,10 @@ function MyMenu(props) {
         <ListGroup className="mt-1 text-center text-align-center " variant="flush">
             {props.loggedIn ? <ListGroup.Item style={{ backgroundColor: 'rgb(21, 255, 0)', fontWeight: 'bold' }}>HELLO {props.user}!</ListGroup.Item> : ''}
             <Link to="/main" style={{ textDecoration: 'none' }}>
-                <ListGroup.Item >Play</ListGroup.Item>
+                <ListGroup.Item onClick={() =>
+                    props.handleShowSettingsModal(true)
+                }
+                >Play</ListGroup.Item>
             </Link>
 
             {props.loggedIn ?

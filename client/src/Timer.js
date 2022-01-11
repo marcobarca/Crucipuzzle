@@ -11,19 +11,10 @@ function Timer(props) {
             }
             else if (seconds == 0 || props.exitGame) {
                 props.handleShowScoreModal(true);
-                if (props.loggedIn) {
-                    const game = { username: props.user, score: props.score };
-                    props.createGame(game).then(() => {
-                        props.handleStart(false);
-                        props.handleExitGame(false);
-                        props.handleShowScoreModal(true);
-                    }).catch()
-                }
-                else {
-                    props.handleStart(false);
-                    props.handleExitGame(false);
-                    props.handleShowScoreModal(true);
-                }
+                props.handleStart(false);
+                props.handleExitGame(false);
+                props.handleShowScoreModal(true);
+
                 setSeconds(60) //***change this number to debug faster***
             }
         }, 1000)

@@ -1,6 +1,5 @@
 import { Form, Button, Alert, Modal } from 'react-bootstrap';
 import { useState } from 'react';
-import * as API from './API';
 
 
 function LoginForm(props) {

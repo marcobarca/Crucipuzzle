@@ -10,7 +10,7 @@ import { MyModal, MyScoreModal } from './MyModal.js'
 import { GameGrid } from './GameGrid.js'
 import { Timer } from './Timer.js'
 import { MyMenu } from './MyMenu.js'
-import * as API from './API';
+import API from './API';
 
 function App() {
 
@@ -108,7 +108,7 @@ function App() {
         <Route path="/" element={
           <>
             <style>{'body { background-color: #E8EF02; }'}</style>
-            <Container style={{ marginTop: 100 }}>
+            <Container style={{ marginTop: '20%' }}>
               <Row className="justify-content-md-center">
                 <h3 className="rainbow-text"
                   style={{
@@ -149,6 +149,7 @@ function App() {
                     handleGuest={handleGuest}
                     handleHallOfFame={handleHallOfFame}
                     handleMyGames={handleMyGames}
+                    handleShowSettingsModal={handleShowSettingsModal}
                   />
                 </Row>}
             </Container>
@@ -214,6 +215,7 @@ function App() {
                       className='align-center ml-3'
                       brightCells={brightCells}
                       handleBrightCells={handleBrightCells}
+                      getWordCheck={API.getWordCheck}
                     />
                   </Col>
                   <Col />
@@ -250,6 +252,9 @@ function App() {
               gameDifficult={gameDifficult}
               handleStart={handleStart}
               resetScore={resetScore}
+              user={user}
+              loggedIn={loggedIn}
+              createGame={API.createGame}
             />
           </>
         }>
@@ -313,53 +318,54 @@ function App() {
         {/* ********************* My Games ********************* */}
         {/* ******************************************************** */}
         <Route path="/myGames" element={
-          <>
-            <style>{'body { background-color: #E8EF02; }'}</style>
-            <Container style={{ marginTop: 20 }}>
-              <Row className="justify-content-md-center">
-                <h3 className="rainbow-text"
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    fontSize: "70px",
-                    fontFamily: 'Luckiest Guy',
-                  }}
-                > CruciPuzzle</h3>
-              </Row>
-              <Row align='center'>
-                <h1>MyGames</h1>
-              </Row>
-
-              {loading ?
-                <Row align='center'>
-                  <h3>Loading...</h3>
+          !loggedIn ? <Navigate to='/' /> :
+            <>
+              <style>{'body { background-color: #E8EF02; }'}</style>
+              <Container style={{ marginTop: 20 }}>
+                <Row className="justify-content-md-center">
+                  <h3 className="rainbow-text"
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      fontSize: "70px",
+                      fontFamily: 'Luckiest Guy',
+                    }}
+                  > CruciPuzzle</h3>
                 </Row>
-                : myGames.map((el, index) => {
-                  return <Row key={index}>
-                    <Col />
-                    <Col align='center'>
-                      <h4>Game {index}</h4>
-                    </Col>
-                    <Col align='center'>
-                      <h4>{el.score}</h4>
-                    </Col>
-                    <Col />
+                <Row align='center'>
+                  <h1>MyGames</h1>
+                </Row>
+
+                {loading ?
+                  <Row align='center'>
+                    <h3>Loading...</h3>
                   </Row>
-                })}
-              <Row className='flex pt-3'>
-                <Col />
-                <Col>
-                  <Link to={'/'}>
-                    <Button className='w-100'>
-                      Exit
-                    </Button>
-                  </Link>
-                </Col>
-                <Col />
-              </Row>
-            </Container>
-          </>
+                  : myGames.map((el, index) => {
+                    return <Row key={index}>
+                      <Col />
+                      <Col align='center'>
+                        <h4>Game {index}</h4>
+                      </Col>
+                      <Col align='center'>
+                        <h4>{el.score}</h4>
+                      </Col>
+                      <Col />
+                    </Row>
+                  })}
+                <Row className='flex pt-3'>
+                  <Col />
+                  <Col>
+                    <Link to={'/'}>
+                      <Button className='w-100'>
+                        Exit
+                      </Button>
+                    </Link>
+                  </Col>
+                  <Col />
+                </Row>
+              </Container>
+            </>
         }>
         </Route>
 

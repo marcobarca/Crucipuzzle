@@ -1,15 +1,18 @@
-import { Modal, Col, Row, Container, Image, Button, Toast, Dropdown, Nav, NavDropdown } from "react-bootstrap"
+import { Modal, Col, Row, Button, Nav, NavDropdown } from "react-bootstrap"
 import { Link } from 'react-router-dom';
 
 
 //*****************************************//
-//*** *******Game Settings modal******* ***//
+//***********Game Settings modal***********//
 //*****************************************//
 
 function MyModal(props) {
     return (
-        <Modal show={props.showSettingsModal} centered backdrop="static" onHide={() => props.handleShowSettingsModal(false)} animation={false}>
-            <Modal.Header closeButton>
+        <Modal show={props.showSettingsModal}
+            centered
+            backdrop="static"
+            onHide={() => props.handleShowSettingsModal(false)} animation={false}>
+            <Modal.Header >
                 <Modal.Title>Game Settings</Modal.Title>
             </Modal.Header>
 
@@ -82,14 +85,14 @@ function MyModal(props) {
 function MyScoreModal(props) {
     return (
         <Modal show={props.showScoreModal} centered backdrop="static" onHide={() => props.handleShowScoreModal(false)} animation={false}>
-            <Modal.Header closeButton>
+            <Modal.Header>
                 <Modal.Title>Game finished</Modal.Title>
             </Modal.Header>
 
             <Modal.Body>
                 <Row>
                     <h4>
-                        Your score is: {props.score * props.gameDifficult}
+                        Your final score is: {props.score * props.gameDifficult}
                     </h4>
                 </Row>
 
@@ -99,17 +102,20 @@ function MyScoreModal(props) {
                 <Link to="/">
                     <Button variant="secondary"
                         onClick={() => {
-                            props.handleShowScoreModal(false);
+                            if (props.loggedIn) {
+                                const game = { username: props.user, score: props.score * props.gameDifficult };
+                                props.createGame(game).then(() => {
+                                    props.handleShowScoreModal(false);
+                                    props.resetScore();
+                                }).catch()
+                            }
+                            else {
+                                props.handleShowScoreModal(false);
+                                props.resetScore();
+                            }
                         }}
                     >Exit</Button>
                 </Link>
-                <Button variant="primary"
-                    onClick={() => {
-                        props.handleShowScoreModal(false);
-                        props.handleStart(true);
-                        props.resetScore();
-                    }}
-                >Play Again</Button>
             </Modal.Footer>
         </Modal >
 

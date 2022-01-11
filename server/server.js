@@ -1,35 +1,18 @@
 const express = require('express');
-const morgan = require('morgan'); // logging middleware
-const { check, validationResult } = require('express-validator'); // validation middleware
+const morgan = require('morgan'); 
+const { check, validationResult } = require('express-validator');
 const dao = require('./dao');
-const dayjs = require('dayjs');
-const passport = require('passport'); // auth middleware
-const LocalStrategy = require('passport-local').Strategy; // username and password for login
-const session = require('express-session'); // enable sessions
-const userDao = require('./user-dao'); // module for accessing the users in the DB
-
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const session = require('express-session');
+const userDao = require('./user-dao');
 const port = 3001;
-
 app = new express();
 
+//***************************************************************************************************** */
+/**************************************** SET UP PASSPORT ********************************************* */
+//***************************************************************************************************** */
 
-app.use(morgan('dev'));
-app.use(express.json());
-
-let wordList = [];
-
-//Load the word-list at start
-var fs = require('fs');
-fs.readFile('words.txt', function (err, data) {
-  if (err) throw err;
-  var array = data.toString().split("\n");
-  for (i in array) {
-    wordList.push(array[i].replace(/(\r\n|\n|\r)/gm, ""))
-  }
-});
-
-
-/*** Set up Passport ***/
 // set up the "username and password" login strategy
 // by setting a function to verify username and password
 passport.use(new LocalStrategy(
@@ -66,7 +49,6 @@ passport.deserializeUser((id, done) => {
 const isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated())
     return next();
-
   return res.status(401).json({ error: 'not authenticated' });
 }
 
@@ -82,6 +64,23 @@ app.use(session({
 // then, init passport
 app.use(passport.initialize());
 app.use(passport.session());
+
+//***************************************************************************************************** */
+
+app.use(morgan('dev'));
+app.use(express.json());
+
+let wordList = [];
+
+//Load the word-list at start
+var fs = require('fs');
+fs.readFile('words.txt', function (err, data) {
+  if (err) throw err;
+  var array = data.toString().split("\n");
+  for (i in array) {
+    wordList.push(array[i].replace(/(\r\n|\n|\r)/gm, ""))
+  }
+});
 
 
 // GET THE PUZZLE
@@ -140,7 +139,7 @@ app.get('/api/puzzle', async (req, res) => {
   }
 })
 
-
+// GET THE HALL OF FAME
 app.get('/api/HallOfFame', async (req, res) => {
   try {
     const hof = await dao.getHallOfFame();
@@ -150,7 +149,8 @@ app.get('/api/HallOfFame', async (req, res) => {
   }
 });
 
-app.get('/api/MyGames', async (req, res) => {
+// GET THE LIST OF THE PLAYED GAMES (USER MUST BE LOGGED)
+app.get('/api/MyGames', isLoggedIn, async (req, res) => {
   try {
     const games = await dao.getMyGames(req.query.username);
     res.json(games);
@@ -159,12 +159,12 @@ app.get('/api/MyGames', async (req, res) => {
   }
 });
 
-//CHECK IF ENGLISH WORD EXISTS
+// CHECK IF ENGLISH WORD EXISTS
 app.get('/api/check', async (req, res) => {
   res.status(200).send(wordList.includes(req.query.word))
 })
 
-// POST /api/games
+// POST A NEW GAME /api/games
 app.post('/api/games', [
   check('username').notEmpty().isString(),
   check('score').notEmpty().isNumeric()
@@ -186,10 +186,9 @@ app.post('/api/games', [
   }
 });
 
-
-
-
-/*** USER APIs ***/
+//***************************************************************************************************** */
+/******************************************** USER APIs *********************************************** */
+//***************************************************************************************************** */
 
 // Login --> POST /sessions
 app.post('/api/sessions', function (req, res, next) {
@@ -231,6 +230,9 @@ app.get('/api/sessions/current', (req, res) => {
 });
 
 
+// THIS FUNCTION GIVE BACK A LETTER RANDOMLY
+// BASED ON ENGLISH WORDS FREQUENCY
+// http://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html
 function getLetter() {
   let n = Math.floor(Math.random() * 10000);
   if (n < 1202)
