@@ -54,7 +54,7 @@
 ![Screenshot](./img/guest-menu.png)
 
 - Menu (logged user view)
-![Screenshot](./img/logged-menu.png)
+![Screenshot](./img/user-menu.png)
 
 - Difficult settings modal
 ![Screenshot](./img/difficult-settings.png)
