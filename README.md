@@ -45,7 +45,16 @@
 
 ## Screenshot
 
-![Screenshot](./img/screenshot.jpg)
+![Screenshot](./img/root.png)
+![Screenshot](./img/guest-menu.png)
+![Screenshot](./img/guest-game-grid.png)
+![Screenshot](./img/hall-of-fame.png)
+![Screenshot](./img/logged-menu.png)
+![Screenshot](./img/login.png)
+![Screenshot](./img/my-games.png)
+![Screenshot](./img/difficult-settings.png)
+![Screenshot](./img/score.png)
+![Screenshot](./img/user-game-grid.png)
 
 ## Users Credentials
 
