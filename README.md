@@ -44,8 +44,9 @@
 - `Timer` (in `Timer.js`): countdown of the game. It appears at '/main'.
 
 ## Screenshot
-
+- Root page
 ![Screenshot](./img/root.png)
+
 ![Screenshot](./img/login.png)
 ![Screenshot](./img/guest-menu.png)
 ![Screenshot](./img/logged-menu.png)
