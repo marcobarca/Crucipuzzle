@@ -32,8 +32,8 @@
 
 ## Database Tables
 
-- Table `user` - contains the registered users (id, username, password)
-- Table `games` - contains all the played games (id, username, score)
+- Table `user` - contains the registered users: id (PK), username(NN), password (NN).
+- Table `games` - contains all the played games: id (PK), username (NN), score (NN).
 
 ## Main React Components
 
