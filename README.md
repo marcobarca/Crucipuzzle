@@ -47,14 +47,31 @@
 - Root page
 ![Screenshot](./img/root.png)
 
+- Login form
 ![Screenshot](./img/login.png)
+
+- Menu (guest view)
 ![Screenshot](./img/guest-menu.png)
+
+- Menu (logged user view)
 ![Screenshot](./img/logged-menu.png)
+
+- Difficult settings modal
 ![Screenshot](./img/difficult-settings.png)
+
+- Game grid (guest view)
 ![Screenshot](./img/guest-game-grid.png)
+
+- Game grid (logged user view)
 ![Screenshot](./img/user-game-grid.png)
+
+- Final score modal
 ![Screenshot](./img/score.png)
+
+- My Games (logged user view)
 ![Screenshot](./img/my-games.png)
+
+- Hall of Fame
 ![Screenshot](./img/hall-of-fame.png)
 
 ## Users Credentials
