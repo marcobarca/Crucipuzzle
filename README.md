@@ -40,8 +40,8 @@
 - `LoginForm` (in `LoginComponent.js`): form that manages the LogIn.
 - `GameGrid` (in `GameGrid.js`): grid of the puzzle and all the game logic.
 - `Menu` (in `MyMenu.js`):  menu that appears at '/'. It allow to play, see the played games and the HoF, execute the LogOut.
-- `SettingsModal` (in `MyModal.js`): modal that allow to set the difficult of the game. It appears at '/main'
-- `Timer` (in `Timer.js`): countdown of the game. It appears at '/main'
+- `SettingsModal` (in `MyModal.js`): modal that allow to set the difficult of the game. It appears at '/main'.
+- `Timer` (in `Timer.js`): countdown of the game. It appears at '/main'.
 
 ## Screenshot
 
