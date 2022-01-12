@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 //***********Game Settings modal***********//
 //*****************************************//
 
-function MyModal(props) {
+function SettingsModal(props) {
     return (
         <Modal show={props.showSettingsModal}
             centered
@@ -82,7 +82,7 @@ function MyModal(props) {
 //*****************************************//
 //*** ***********Score modal*********** ***//
 //*****************************************//
-function MyScoreModal(props) {
+function ScoreModal(props) {
     return (
         <Modal show={props.showScoreModal} centered backdrop="static" onHide={() => props.handleShowScoreModal(false)} animation={false}>
             <Modal.Header>
@@ -122,4 +122,4 @@ function MyScoreModal(props) {
     )
 }
 
-export { MyModal, MyScoreModal };
+export { SettingsModal, ScoreModal };

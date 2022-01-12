@@ -1,5 +1,5 @@
 const express = require('express');
-const morgan = require('morgan'); 
+const morgan = require('morgan');
 const { check, validationResult } = require('express-validator');
 const dao = require('./dao');
 const passport = require('passport');
@@ -168,7 +168,7 @@ app.get('/api/check', async (req, res) => {
 app.post('/api/games', [
   check('username').notEmpty().isString(),
   check('score').notEmpty().isNumeric()
-], async (req, res) => {
+], isLoggedIn ,async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './MyMenu.css';
 
 
-function MyMenu(props) {
+function Menu(props) {
 
 
 
@@ -52,4 +52,4 @@ function MyMenu(props) {
     );
 }
 
-export { MyMenu };
+export { Menu };

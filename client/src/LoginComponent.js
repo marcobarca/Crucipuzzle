@@ -3,8 +3,8 @@ import { useState } from 'react';
 
 
 function LoginForm(props) {
-    const [username, setUsername] = useState('username');
-    const [password, setPassword] = useState('password');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
     const [show, setShow] = useState(false); //error alert show state
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -17,8 +17,17 @@ function LoginForm(props) {
         let valid = true;
         if (username === '' || password === '') {
             valid = false;
-            setErrorMessage('Email cannot be empty and password must be at least six character long.');
+            if (username === '' && password === '')
+                setErrorMessage('Username and Password cannot be empty!');
+            else if (username === '')
+                setErrorMessage('Username cannot be empty!');
+            else if (password === '')
+                setErrorMessage('Password cannot be empty!');
             setShow(true);
+        }
+
+        if (username === '') {
+
         }
         //Credentials are correct
         if (valid) {
@@ -54,20 +63,25 @@ function LoginForm(props) {
                             type="username"
                             value={username}
                             onChange={(ev) => setUsername(ev.target.value)}
+                            placeholder="Enter username"
                         />
                     </Form.Group>
-                    <Form.Group className='pt-'controlId="password">
+                    <Form.Group className='pt-' controlId="password">
                         <Form.Label>Password</Form.Label>
                         <Form.Control
                             type="password"
                             value={password}
                             onChange={(ev) => setPassword(ev.target.value)}
+                            placeholder="Enter password"
                         />
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
-                <Button 
-                        onClick={() => props.handleShowLoginForm(false)}
+                    <Button
+                        onClick={() => {
+                            props.handleShowLoginForm(false)
+                            setShow(false)
+                        }}
                     >Close</Button>
                     <Button type="submit"
                         onClick={handleSubmit}

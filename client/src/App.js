@@ -6,10 +6,10 @@ import './App.css';
 import './LoginComponent'
 import { useState, useEffect } from 'react';
 import './rainbowText.css'
-import { MyModal, MyScoreModal } from './MyModal.js'
+import { SettingsModal, ScoreModal } from './MyModal.js'
 import { GameGrid } from './GameGrid.js'
 import { Timer } from './Timer.js'
-import { MyMenu } from './MyMenu.js'
+import { Menu } from './MyMenu.js'
 import API from './API';
 
 function App() {
@@ -103,71 +103,11 @@ function App() {
       <Routes>
 
         {/* ******************************************************** */}
-        {/* *********************** Root Page ********************** */}
-        {/* ******************************************************** */}
-        <Route path="/" element={
-          <>
-            <style>{'body { background-color: #E8EF02; }'}</style>
-            <Container style={{ marginTop: '20%' }}>
-              <Row className="justify-content-md-center">
-                <h3 className="rainbow-text"
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    fontSize: "70px",
-                    fontFamily: 'Luckiest Guy',
-                  }}
-                > CruciPuzzle</h3>
-              </Row>
-              {!loggedIn && !guest ?
-                <>
-                  <Row>
-                    <Col className="d-flex justify-content-end">
-                      <Button
-                        style={{
-                          width: "130px",
-                          height: "50px",
-                        }}
-                        onClick={() => handleShowLoginForm(true)}
-                      >LogIn</Button>
-                    </Col>
-                    <Col>
-                      <Button
-                        style={{ width: "150px", height: "50px" }}
-                        onClick={() => handleGuest(true)}
-                      >Enter as guest</Button>
-                    </Col>
-                  </Row>
-                </> :
-                <Row>
-                  <MyMenu
-                    loggedIn={loggedIn}
-                    user={user}
-                    handleLoading={handleLoading}
-                    handleLogOut={handleLogOut}
-                    handleGuest={handleGuest}
-                    handleHallOfFame={handleHallOfFame}
-                    handleMyGames={handleMyGames}
-                    handleShowSettingsModal={handleShowSettingsModal}
-                  />
-                </Row>}
-            </Container>
-            <LoginForm
-              showLoginForm={showLoginForm}
-              handleShowLoginForm={handleShowLoginForm}
-              logIn={API.logIn}
-              handleLoggedIn={handleLoggedIn}
-              handleUser={handleUser}
-            />
-          </>
-        }>
-        </Route>
-
-        {/* ******************************************************** */}
         {/* *********************** Game Page ********************** */}
         {/* ******************************************************** */}
         <Route path="/main" element={
+          //To play you must be logged as user or as guest
+          !loggedIn && !guest ? <Navigate to='/' /> :
           <>
             <style>{'body { background-color: #E8EF02; }'}</style>
             <Row className="justify-content-md-center">
@@ -235,7 +175,7 @@ function App() {
               </Container>
             </Row>
             {/* ******* Difficult Settings Modal ******* */}
-            <MyModal
+            <SettingsModal
               showSettingsModal={showSettingsModal}
               handleShowSettingsModal={handleShowSettingsModal}
               gameDifficult={gameDifficult}
@@ -244,7 +184,7 @@ function App() {
               handleStart={handleStart}
             />
             {/* ******* Score Modal ******* */}
-            <MyScoreModal
+            <ScoreModal
               start={start}
               score={score}
               showScoreModal={showScoreModal}
@@ -264,6 +204,8 @@ function App() {
         {/* ********************* Hall Of Fame ********************* */}
         {/* ******************************************************** */}
         <Route path="/hallOfFame" element={
+          //To see the hall of fame you must be logged as user or as guest
+          !loggedIn && !guest ? <Navigate to='/' /> :
           <>
             <style>{'body { background-color: #E8EF02; }'}</style>
             <Container style={{ marginTop: 20 }}>
@@ -318,6 +260,7 @@ function App() {
         {/* ********************* My Games ********************* */}
         {/* ******************************************************** */}
         <Route path="/myGames" element={
+          //To see played games you must be logged as user
           !loggedIn ? <Navigate to='/' /> :
             <>
               <style>{'body { background-color: #E8EF02; }'}</style>
@@ -366,6 +309,68 @@ function App() {
                 </Row>
               </Container>
             </>
+        }>
+        </Route>
+
+        {/* ******************************************************** */}
+        {/* *********************** Root Page ********************** */}
+        {/* ******************************************************** */}
+        <Route path="/" element={
+          <>
+            <style>{'body { background-color: #E8EF02; }'}</style>
+            <Container style={{ marginTop: '20%' }}>
+              <Row className="justify-content-md-center">
+                <h3 className="rainbow-text"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    fontSize: "70px",
+                    fontFamily: 'Luckiest Guy',
+                  }}
+                > CruciPuzzle</h3>
+              </Row>
+              {!loggedIn && !guest ?
+                <>
+                  <Row>
+                    <Col className="d-flex justify-content-end">
+                      <Button
+                        style={{
+                          width: "130px",
+                          height: "50px",
+                        }}
+                        onClick={() => handleShowLoginForm(true)}
+                      >LogIn</Button>
+                    </Col>
+                    <Col>
+                      <Button
+                        style={{ width: "150px", height: "50px" }}
+                        onClick={() => handleGuest(true)}
+                      >Enter as guest</Button>
+                    </Col>
+                  </Row>
+                </> :
+                <Row>
+                  <Menu
+                    loggedIn={loggedIn}
+                    user={user}
+                    handleLoading={handleLoading}
+                    handleLogOut={handleLogOut}
+                    handleGuest={handleGuest}
+                    handleHallOfFame={handleHallOfFame}
+                    handleMyGames={handleMyGames}
+                    handleShowSettingsModal={handleShowSettingsModal}
+                  />
+                </Row>}
+            </Container>
+            <LoginForm
+              showLoginForm={showLoginForm}
+              handleShowLoginForm={handleShowLoginForm}
+              logIn={API.logIn}
+              handleLoggedIn={handleLoggedIn}
+              handleUser={handleUser}
+            />
+          </>
         }>
         </Route>
 
