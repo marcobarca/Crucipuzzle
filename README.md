@@ -45,7 +45,7 @@
 
 ## Screenshot
 
-![hello](./img/root.png)
+![Screenshot](./img/root.png)
 ![Screenshot](./img/login.png)
 ![Screenshot](./img/guest-menu.png)
 ![Screenshot](./img/logged-menu.png)
