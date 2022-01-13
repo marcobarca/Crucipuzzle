@@ -212,7 +212,6 @@ app.post('/api/sessions', function (req, res, next) {
 });
 
 
-
 // Logout --> DELETE /sessions/current 
 app.delete('/api/sessions/current', (req, res) => {
   req.logout();

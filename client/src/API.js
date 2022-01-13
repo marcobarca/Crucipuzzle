@@ -90,6 +90,23 @@ async function logIn(credentials) {
   }
 }
 
-const API = { createGame, getPuzzle, getHallOfFame, getMyGames, getWordCheck, logIn }
+async function logOut() {
+  let response = await fetch('api/sessions/current', {
+    method: 'DELETE'});
+  if (response.ok) {
+    return true;
+  }
+  else {
+    try {
+      const errDetail = await response.json();
+      throw errDetail.message;
+    }
+    catch (err) {
+      throw err;
+    }
+  }
+}
+
+const API = { createGame, getPuzzle, getHallOfFame, getMyGames, getWordCheck, logIn, logOut }
 
 export default API;

@@ -33,6 +33,7 @@ function App() {
   const handleLoggedIn = (bool) => { setLoggedIn(bool) };
 
   const handleLogOut = () => {
+    API.logOut();
     setLoggedIn(false);
     setUser('')
   }
