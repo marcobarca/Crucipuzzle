@@ -12,11 +12,11 @@
 
 - POST `/api/session`
   - request parameters: none
-  - request body content: an object that rapresent the user (username and password).
+  - request body content: an object that rapresent the user (username and password)
   ```json
     {"username":"u1","password":"p1"}
   ```
-  - response body content: an object containing id and username of the current logged user data.
+  - response body content: an object containing id and username of the current logged user data
   ```json
     {"id":1,"username":"u1"}
   ```
@@ -33,7 +33,7 @@
 
 - GET `/api/puzzle?gameDifficult=`
   - request parameters: 'gameDifficult'
-  - response body content: a matrix that rapresent the game grid.
+  - response body content: a matrix that rapresent the game grid
   ```json
     [["P","E","N","V","D","E"],
      ["I","H","E","A","W","U"],
@@ -50,7 +50,7 @@
   
 - GET `/api/getHallOfFame`
   - request parameters: none.
-  - response body content: an array of games (username and score).
+  - response body content: an array of games (username and score)
   ```json
   [{"username":"u4","score":520},
    {"username":"u1","score":510},
@@ -63,7 +63,7 @@
   
 - GET `/api/MyGames?username:u1`
   - request parameters: 'username'.
-  - response body content: an array of games (username and score).
+  - response body content: an array of games (username and score)
   ```json
   [{"username":"u1","score":150},
    {"username":"u1","score":240},
@@ -76,7 +76,7 @@
    
 - POST `/api/createGame`
   - request parameters: none.
-  - request body content: an object that rapresent a game almost played played by the user.
+  - request body content: an object that rapresent a game almost played played by the user
  ```json
     {"username":"u1","score":4}
  ```
