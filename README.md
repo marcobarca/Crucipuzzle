@@ -20,12 +20,16 @@
   ```json
     {"id":1,"username":"u1"}
   ```
+  ---
     
 - DELETE `/api/sessions/current` 
   - request parameters : none
   - request body : none
   - response body : none
-*(Log out API)
+  
+  *(Log out API)*
+
+  ---
 
 - GET `/api/puzzle?gameDifficult=`
   - request parameters: 'gameDifficult'
@@ -36,10 +40,13 @@
      ["D","I","B","N","N","B"],
      ["E","T","T","E","N","I"]]
    ```
+  ---
      
 - GET `/api/check?word=`
   - request parameters: 'word' the word that the player find in the grid.
   - response body content: true/false (if the word exists or not).
+
+  ---
   
 - GET `/api/getHallOfFame`
   - request parameters: none.
@@ -52,6 +59,8 @@
    {"username":"u4","score":430}]
   ```
   
+  ---
+  
 - GET `/api/MyGames?username:u1`
   - request parameters: 'username'.
   - response body content: an array of games (username and score).
@@ -62,6 +71,8 @@
    {"username":"u1","score":420},
    {"username":"u1","score":510}]
   ```
+  
+  ---
    
 - POST `/api/createGame`
   - request parameters: none.
@@ -70,7 +81,6 @@
     {"username":"u1","score":4}
  ```
   - response body content: none.
-
 
 ## Database Tables
 
