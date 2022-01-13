@@ -27,7 +27,7 @@
   - request body : none
   - response body : none
   
-  *(Log out API)*
+    *(Log out API)*
 
   ---
 
