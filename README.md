@@ -74,7 +74,7 @@
   
   ---
    
-- POST `/api/createGame`
+- POST `/api/games`
   - request parameters: none.
   - request body content: an object that rapresent a game almost played played by the user
  ```json
