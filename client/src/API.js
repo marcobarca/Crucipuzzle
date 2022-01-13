@@ -1,6 +1,8 @@
 
-//This function ask to the server a list of letters in order to
-//create the game grid
+
+//*** GET /api/puzzle?gameDifficult
+
+//This call ask to the server a list of letters in order to create the game grid
 async function getPuzzle(gameDifficult, setPuzzle, setLoading) {
   const response = await fetch('/api/puzzle?gameDifficult=' + gameDifficult);
   const responseBody = await response.json();
@@ -10,7 +12,11 @@ async function getPuzzle(gameDifficult, setPuzzle, setLoading) {
   }
 }
 
-//This function check if an english word exists
+//------------------------------------------------------------------------------------
+
+//*** GET /api/check?word
+
+//This call check if an english word exists
 async function getWordCheck(word) {
   const response = await fetch('/api/check?word=' + word);
   const responseBody = await response.json();
@@ -20,7 +26,12 @@ async function getWordCheck(word) {
     throw responseBody;
 }
 
-//This function get the hall of fame games list
+//------------------------------------------------------------------------------------
+
+
+//*** GET /api/HallOfFame
+
+//This call get the hall of fame games list
 async function getHallOfFame(setHallOfFame, setLoading) {
   const response = await fetch('/api/HallOfFame');
   const responseBody = await response.json();
@@ -33,7 +44,12 @@ async function getHallOfFame(setHallOfFame, setLoading) {
     throw responseBody;
 }
 
-//This function get the games list (user must be logged)
+//------------------------------------------------------------------------------------
+
+
+//*** GET /api/MyGames?username
+
+//This call get the games list (user must be logged)
 async function getMyGames(user, setMyGames, setLoading) {
   const response = await fetch('/api/MyGames?username=' + user);
   const responseBody = await response.json();
@@ -46,7 +62,12 @@ async function getMyGames(user, setMyGames, setLoading) {
     throw responseBody;
 }
 
-//This function store a new game (user must be logged)
+//------------------------------------------------------------------------------------
+
+
+//*** POST /api/games
+
+//This call store a new game (user must be logged)
 function createGame(game) {
   return new Promise((resolve, reject) => {
     fetch('/api/games', {
@@ -67,6 +88,13 @@ function createGame(game) {
   });
 }
 
+
+//------------------------------------------------------------------------------------
+
+
+//*** POST api/sessions
+
+//Log in call
 async function logIn(credentials) {
   let response = await fetch('api/sessions', {
     method: 'POST',
@@ -90,22 +118,31 @@ async function logIn(credentials) {
   }
 }
 
+//------------------------------------------------------------------------------------
+
+
+//*** POST api/sessions/current
+
+//Log out call
 async function logOut() {
+
   let response = await fetch('api/sessions/current', {
     method: 'DELETE'});
   if (response.ok) {
-    return true;
+    return null;
   }
   else {
     try {
       const errDetail = await response.json();
       throw errDetail.message;
-    }
-    catch (err) {
+    } catch (err) {
       throw err;
     }
   }
 }
+
+//------------------------------------------------------------------------------------
+
 
 const API = { createGame, getPuzzle, getHallOfFame, getMyGames, getWordCheck, logIn, logOut }
 

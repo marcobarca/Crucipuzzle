@@ -65,10 +65,10 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-//***************************************************************************************************** */
-
 app.use(morgan('dev'));
 app.use(express.json());
+
+//-------------------------------------------------------------------------------------------------------/
 
 let wordList = [];
 
@@ -82,6 +82,9 @@ fs.readFile('words.txt', function (err, data) {
   }
 });
 
+//------------------------------------------------------------
+
+//*** GET /api/puzzle
 
 // GET THE PUZZLE
 app.get('/api/puzzle', async (req, res) => {
@@ -139,6 +142,10 @@ app.get('/api/puzzle', async (req, res) => {
   }
 })
 
+//------------------------------------------------------------
+
+//*** GET /api/HallOfFame
+
 // GET THE HALL OF FAME
 app.get('/api/HallOfFame', async (req, res) => {
   try {
@@ -149,7 +156,11 @@ app.get('/api/HallOfFame', async (req, res) => {
   }
 });
 
-// GET THE LIST OF THE PLAYED GAMES (USER MUST BE LOGGED)
+//------------------------------------------------------------
+
+//*** GET /api/MyGames
+
+// Get the list of the played games (USER MUST BE LOGGED)
 app.get('/api/MyGames', isLoggedIn, async (req, res) => {
   try {
     const games = await dao.getMyGames(req.query.username);
@@ -159,12 +170,20 @@ app.get('/api/MyGames', isLoggedIn, async (req, res) => {
   }
 });
 
-// CHECK IF ENGLISH WORD EXISTS
+//------------------------------------------------------------
+
+//*** GET /api/check
+
+// Check if the discovered word is an English word
 app.get('/api/check', async (req, res) => {
   res.status(200).send(wordList.includes(req.query.word))
 })
 
-// POST A NEW GAME /api/games
+//------------------------------------------------------------
+
+//*** POST /api/games
+
+// Store new played games
 app.post('/api/games', [
   check('username').notEmpty().isString(),
   check('score').notEmpty().isNumeric()
@@ -177,7 +196,6 @@ app.post('/api/games', [
     username: req.body.username,
     score: req.body.score,
   };
-
   try {
     await dao.createGame(game);
     res.status(201).end();
