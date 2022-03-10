@@ -1,5 +1,4 @@
-# Exam #5: "CruciPuzzle"
-## Student: s281702 Barca Marco
+# "CruciPuzzle"
 
 ## React Client Application Routes
 
