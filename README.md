@@ -1,4 +1,4 @@
-# "CruciPuzzle"
+# Crucipuzzle
 
 ## React Client Application Routes
 
