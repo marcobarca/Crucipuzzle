@@ -1,5 +1,5 @@
 # Crucipuzzle
- A web application game based on a React client.
+ A web based game built on a React client.
 
 ## React Client Application Routes
 
