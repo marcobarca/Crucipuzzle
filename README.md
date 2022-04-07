@@ -1,4 +1,5 @@
 # Crucipuzzle
+ A web application game based on a React client.
 
 ## React Client Application Routes
 
@@ -94,7 +95,7 @@
 - `SettingsModal` (in `MyModal.js`): modal that allow to set the difficult of the game. It appears at '/main'.
 - `Timer` (in `Timer.js`): countdown of the game. It appears at '/main'.
 
-## Screenshot
+## Screenshots
 - Root page
 ![Screenshot](./img/root.png)
 
